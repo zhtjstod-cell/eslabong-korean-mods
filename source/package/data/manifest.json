@@ -1,0 +1,404 @@
+{
+  "format": 1,
+  "resources": [
+    {
+      "path": "Scenes/Campaign/ChallengeTowerPanel.gdc",
+      "base": "0b494c886ec10bb43b73e52ee2a887f031bde555ded676067e0895eac0c54223",
+      "variants": {
+        "korean": {
+          "sha256": "ae8d843fa58622b1b431b728c801039aeb0a70a026d8a6ae038be07acedb90b0",
+          "forward": "639bf83223392d9d677fbe03.delta",
+          "reverse": "639bf83223392d9d677fbe03.reverse"
+        }
+      }
+    },
+    {
+      "path": "Scenes/Campaign/ChampionAuctionPanel.gdc",
+      "base": "7fa46f3a252360876ff9e4ac13c1d5f19062116ed688a70d77102dca87210013",
+      "variants": {
+        "korean": {
+          "sha256": "486569756eb71fb80762095d1bf5145450f65e8c6fcbe8d40badf11b570ac292",
+          "forward": "0dd232b69d18c77d4a34b845.delta",
+          "reverse": "0dd232b69d18c77d4a34b845.reverse"
+        }
+      }
+    },
+    {
+      "path": "Scenes/Campaign/ChampionInterestPanel.gdc",
+      "base": "d9ef645b17571f0252d8035035d245b83acae3ebd692d0e37ca43276fb3dc0d1",
+      "variants": {
+        "korean": {
+          "sha256": "aa2616792ec4034c6a7ab64a04ebab322721149ad97eb3e6bbf99c4c90873228",
+          "forward": "6bacf23ac8516b404291c86f.delta",
+          "reverse": "6bacf23ac8516b404291c86f.reverse"
+        }
+      }
+    },
+    {
+      "path": "Scenes/Campaign/DraftModePanel.gdc",
+      "base": "7d97464416b7ee40dd2a10cb8a3e8fb2032999519c56afcbfef7c5ce7712224d",
+      "variants": {
+        "korean": {
+          "sha256": "398397f0bd7256515318cadf8de484ca0643555ba11283726965411692a1db0a",
+          "forward": "6345e81dfbee702901cecd8b.delta",
+          "reverse": "6345e81dfbee702901cecd8b.reverse"
+        }
+      }
+    },
+    {
+      "path": "Scenes/Campaign/LeagueStandingsTab.gdc",
+      "base": "9932e3420b9a3c1d1e703ea615455f74871e99873a27f77f9fc143d5f6e25725",
+      "variants": {
+        "korean": {
+          "sha256": "955cf995bdf2fd7523d69d8c0f169bd3baae568cacc4872aaa5adbe01c20045c",
+          "forward": "033f11e362af23436a8ee960.delta",
+          "reverse": "033f11e362af23436a8ee960.reverse"
+        }
+      }
+    },
+    {
+      "path": "Scenes/Campaign/MarketDetailPanel.gdc",
+      "base": "3820329c8fe8856110a6b1b260bd8456a908c4c1ca5e2d16c12c6fa8d527e80d",
+      "variants": {
+        "korean": {
+          "sha256": "5d414ee93f1cb203e95fe73627b473759b4a0c60de137ae431ed94b0be6f5ca5",
+          "forward": "1fbeae3d44e95bc37e0c8510.delta",
+          "reverse": "1fbeae3d44e95bc37e0c8510.reverse"
+        }
+      }
+    },
+    {
+      "path": "Scenes/Campaign/MarketListingCard.gdc",
+      "base": "2ded0a42f557b10b1f387d04debfa82d7ee6da82cfbcd0b4577288abeb8dc8d1",
+      "variants": {
+        "korean": {
+          "sha256": "5ca6855934439107fbd275822c61863cd88494437b33737ee671463ecb35bf78",
+          "forward": "4a604fd0fbb39446ccf9c00e.delta",
+          "reverse": "4a604fd0fbb39446ccf9c00e.reverse"
+        }
+      }
+    },
+    {
+      "path": "Scenes/Campaign/MarketListingRow.gdc",
+      "base": "1cdec2ef6aac122b2f8b9f75545b7431459e71a170805f96fd979bc9642b2afa",
+      "variants": {
+        "korean": {
+          "sha256": "c5e8acc045411b0d7c8623b3e61eb1c664e6ac7040fe866e0091d7c84507d96e",
+          "forward": "9c92dfc45b7d7f18b02a3a2c.delta",
+          "reverse": "9c92dfc45b7d7f18b02a3a2c.reverse"
+        }
+      }
+    },
+    {
+      "path": "Scenes/Campaign/MercenaryCard.gdc",
+      "base": "1cc6cc87ba8449b3f41d7cce4657997f3aa777fe225e159e21b6e04e3b994d76",
+      "variants": {
+        "korean": {
+          "sha256": "92ad94717bc246b61b84a26987b18a65c914e20697fc0a923b4d5f7064388073",
+          "forward": "577cf36d77838e6c7a3a5538.delta",
+          "reverse": "577cf36d77838e6c7a3a5538.reverse"
+        }
+      }
+    },
+    {
+      "path": "Scenes/Campaign/MercenaryDetailsPanel.gdc",
+      "base": "009581528356944bb1cb5536677c6ab99dfa40010108bc6abd2e133e115880ab",
+      "variants": {
+        "korean": {
+          "sha256": "0d118e730928c15654b1cfad66ff78798c542b3f674dc33a12e3dc5a13d601dd",
+          "forward": "8e8d40da004473fce292c7e7.delta",
+          "reverse": "8e8d40da004473fce292c7e7.reverse"
+        }
+      }
+    },
+    {
+      "path": "Scenes/Campaign/PostBattleScreen.gdc",
+      "base": "5bbf42e1648432585a0dea668513ca41acf1a2c793ed61dcd575c524efb02b2d",
+      "variants": {
+        "korean": {
+          "sha256": "091a73db8bded096a1a7d369579f8e5499274c6e40f29d893eaf6070e70f0f5c",
+          "forward": "8df73e3db9c714432423f62a.delta",
+          "reverse": "8df73e3db9c714432423f62a.reverse"
+        }
+      }
+    },
+    {
+      "path": "Scenes/Campaign/TeamDetailsView.gdc",
+      "base": "30c553b8fedb11db3a3e2a5b93419b16b38b644dc02b44bced2e5d3d605f5c34",
+      "variants": {
+        "korean": {
+          "sha256": "6c592068109a54791961acd9af34cffa0525dfe2911a8940de16a0dd66543f00",
+          "forward": "a726c089c379e5c5e21a26ff.delta",
+          "reverse": "a726c089c379e5c5e21a26ff.reverse"
+        }
+      }
+    },
+    {
+      "path": "Scenes/Campaign/TeamFoundingScreen.gdc",
+      "base": "1f4eb1a91dc1e8207f3305a0627b35ed196781165d6e1ea9c1e7d6075d0a7e5d",
+      "variants": {
+        "korean": {
+          "sha256": "f652865bf2c9738df0115087466340e3df51c649a726d8932d85566927e71fa8",
+          "forward": "2235b258d1f6663c67ca08ed.delta",
+          "reverse": "2235b258d1f6663c67ca08ed.reverse"
+        }
+      }
+    },
+    {
+      "path": "Scenes/PostBattleScreen.gdc",
+      "base": "e7439d2c7c80d955ccfa7b34fd454b96ec6cfcbadfcb507118170d4c66259bc7",
+      "variants": {
+        "korean": {
+          "sha256": "98447512378731666ca6edeec462fa1d0463909e18f3be9954d36766745711f0",
+          "forward": "216270dfbf49d74e61df6d83.delta",
+          "reverse": "216270dfbf49d74e61df6d83.reverse"
+        }
+      }
+    },
+    {
+      "path": "Scripts/Autoloads/Localization.gdc",
+      "base": "10201d043b57783207172836634772aebd5de639436e5dcf71ca316594af5d92",
+      "variants": {
+        "korean": {
+          "sha256": "a1cb3963ac907e28996f0c971d462920e1b7aece31e4675f3cc3eb13415700ab",
+          "forward": "96b573863c26e4a6768570d3.delta",
+          "reverse": "96b573863c26e4a6768570d3.reverse"
+        }
+      }
+    },
+    {
+      "path": "Scripts/Campaign/CampaignService.gdc",
+      "base": "04605d71feb3031d33b428b17ec1bbded75dbb477fda48ea7eff6299bf120a06",
+      "variants": {
+        "korean": {
+          "sha256": "582d65c3a24726dddbc5a67145a831cfe40af5867a9e71f27a6be5338807fcec",
+          "forward": "33a51f1a7b7db790a2e30b27.delta",
+          "reverse": "33a51f1a7b7db790a2e30b27.reverse"
+        }
+      }
+    },
+    {
+      "path": "Scripts/UI/AbilityHoverDetails.gdc",
+      "base": "a984c57fef14470c799f219db6fe6fef469e0b972f90eef8608f50155590599d",
+      "variants": {
+        "korean": {
+          "sha256": "da38abea435c932ec262020a96a390101b8dac31c44906937966a42703001481",
+          "forward": "e667babde73e0c4911306d75.delta",
+          "reverse": "e667babde73e0c4911306d75.reverse"
+        }
+      }
+    },
+    {
+      "path": "Scripts/UI/CustomBattleMenu.gdc",
+      "base": "ea86723cf27e34eb8f8f17e5d989708619cd4c1ce0f92b3d1b6af24149669a63",
+      "variants": {
+        "korean": {
+          "sha256": "b1c05fe5410c9d5ee7522c95114282648bab0fa872bf1818954202d1344e2ebf",
+          "forward": "3f9102b4f39521606a835797.delta",
+          "reverse": "3f9102b4f39521606a835797.reverse"
+        }
+      }
+    },
+    {
+      "path": "Scripts/UI/HealthBar.gdc",
+      "base": "99029338933a8d7a67813434045c9a26cec2f97717d4a1c43d2f06e18ed0a5b9",
+      "variants": {
+        "korean": {
+          "sha256": "1061024225a5a85c234432c35e5d4ab7a16908fa79da1dafeaad1451097b9ad8",
+          "forward": "eaa5c832a09fb5720de4c4dd.delta",
+          "reverse": "eaa5c832a09fb5720de4c4dd.reverse"
+        }
+      }
+    },
+    {
+      "path": "Scripts/UI/KillFeedUI.gdc",
+      "base": "42815af94867a4c7a9aa86b9ca1ed21105306fe4099d9608ccd659820c7ba8e8",
+      "variants": {
+        "korean": {
+          "sha256": "cbd74f66c07d93f283a5ad2f3e1b276445d4f020b13e00e9de6af08202c6544d",
+          "forward": "efca10b06ad3ab82d81b942d.delta",
+          "reverse": "efca10b06ad3ab82d81b942d.reverse"
+        }
+      }
+    },
+    {
+      "path": "Scripts/UI/PlayerHealthBar.gdc",
+      "base": "e8f670bc845ece77005571794350d2e0072f2b842e660c83073c92359b402582",
+      "variants": {
+        "korean": {
+          "sha256": "458204215c393a86f65305bd1d115d0abf4ec7dbc722e75ee9c2d2e390669dc4",
+          "forward": "dd0f0035d8f5d57e4117daab.delta",
+          "reverse": "dd0f0035d8f5d57e4117daab.reverse"
+        }
+      }
+    },
+    {
+      "path": "Scripts/UI/ScoreboardRow.gdc",
+      "base": "1441da17c8348ac2989a78dbacae8665d7c3be18a683f53efd9c0f89f2ca157d",
+      "variants": {
+        "korean": {
+          "sha256": "945435b71d837b1a75d0fa01ba608fe4c569693539c0645d0f0c5b9907252d5e",
+          "forward": "6825d7a81a4f8e4448ac2566.delta",
+          "reverse": "6825d7a81a4f8e4448ac2566.reverse"
+        }
+      }
+    },
+    {
+      "path": "Scripts/UI/UnitFrame.gdc",
+      "base": "f91c62046651d35e3a40311da2e58bb9d0124a9dcb6055d84aa0410c78cedb8e",
+      "variants": {
+        "korean": {
+          "sha256": "0426357c1c5272411146376ad53c915d63ccdca44895989e1471bfc1fc33ddea",
+          "forward": "056d582bcfb2b6414d76db2d.delta",
+          "reverse": "056d582bcfb2b6414d76db2d.reverse"
+        }
+      }
+    },
+    {
+      "path": "UI/components/fighter_card.gdc",
+      "base": "39fe93382d06b1906acd55c2be583d8a427068cc06497cdee050628d6b05a33b",
+      "variants": {
+        "korean": {
+          "sha256": "f8e9a7d2cdce65571beb62cf62dcc0211430309e563543beccfa6c39dec12bc2",
+          "forward": "955c743041f2bb9c0f620c3b.delta",
+          "reverse": "955c743041f2bb9c0f620c3b.reverse"
+        }
+      }
+    },
+    {
+      "path": "UI/components/roster_listing_row.gdc",
+      "base": "c31067467b727474bd036c5afbd17fab9e0526726466a02e129579ae59eaef67",
+      "variants": {
+        "korean": {
+          "sha256": "09263603921451320450abca25a31073153179b554bbdeb991bf4a7e712ba2db",
+          "forward": "6dca414330495441e3ce009b.delta",
+          "reverse": "6dca414330495441e3ce009b.reverse"
+        }
+      }
+    },
+    {
+      "path": "UI/components/tactics_panel.gdc",
+      "base": "13ee4a0ef8f49209452e83dad33421725e9e618bb2a45490dc7bf038fb925d32",
+      "variants": {
+        "korean": {
+          "sha256": "55fa514b6327566c2b631fa80f1537562ce1d69e0536ceef02475be67308eb39",
+          "forward": "dc813618414d1e85841af2be.delta",
+          "reverse": "dc813618414d1e85841af2be.reverse"
+        }
+      }
+    },
+    {
+      "path": "UI/main_ui.gdc",
+      "base": "9b87b61943ad7c0eca0283f018cd021ea612c9498b17d8349f30a4fa3bf277ea",
+      "variants": {
+        "korean": {
+          "sha256": "da7edb7d7b2663841f021d0a4eb612194e10e121891cd7e5862ade9b728e27d1",
+          "forward": "2e4b9c7ba383c35851c694fe.delta",
+          "reverse": "2e4b9c7ba383c35851c694fe.reverse"
+        }
+      }
+    },
+    {
+      "path": "UI/screens/club_screen.gdc",
+      "base": "ad57b1311a6594b70e5ed7d022a9f2bab9645cae1a9a43e0eab483bc3cbce914",
+      "variants": {
+        "korean": {
+          "sha256": "af4ff9de587ef27b9c82e62e22155d72853468683684c1016e544c4227e691f8",
+          "forward": "4668d8732a0c15cbaa3b89c6.delta",
+          "reverse": "4668d8732a0c15cbaa3b89c6.reverse"
+        }
+      }
+    },
+    {
+      "path": "UI/screens/codex_screen.gdc",
+      "base": "e7cacc34acb74b675ffdfec45ea07643ac1f44aba61f733d89bdbd1b1eaaf274",
+      "variants": {
+        "korean": {
+          "sha256": "c3efcfde2bf5e2eba56c6bd891cda74a62b0d907a9941e35f18c2953150e7643",
+          "forward": "eee10a734e564ff35e3bb230.delta",
+          "reverse": "eee10a734e564ff35e3bb230.reverse"
+        }
+      }
+    },
+    {
+      "path": "UI/screens/home_screen.gdc",
+      "base": "3c10366506087fe114bd6ba5a3f9d7d3731cec1de83a9dcd86cd408a9062a847",
+      "variants": {
+        "korean": {
+          "sha256": "c6a0deeba2cdf7e3c921c573c85f14e5a5f75af97d6ffa4dea77cd9581ea6327",
+          "forward": "5b010e54cac120cacd3d205d.delta",
+          "reverse": "5b010e54cac120cacd3d205d.reverse"
+        }
+      }
+    },
+    {
+      "path": "UI/screens/market_screen.gdc",
+      "base": "c8c2fcad579b096f861d7655c55342860d38a86e619f07fc7758274351eeb31a",
+      "variants": {
+        "korean": {
+          "sha256": "327717c9770dab8aa4b1e5affce42fa5a11bb2c39d4b5b425209b2645f073a84",
+          "forward": "18d88c51a4805c761c1811e7.delta",
+          "reverse": "18d88c51a4805c761c1811e7.reverse"
+        }
+      }
+    },
+    {
+      "path": "UI/screens/myteam_screen.gdc",
+      "base": "378659e6e5f9457d154267e90e04a2be9d3abd50564333fb4ff18f92a09819de",
+      "variants": {
+        "korean": {
+          "sha256": "d74c43a35594ac848879784bcf18028f90815ddcc1566c236203ac05bfe1a80f",
+          "forward": "8bc4cbba57afa2254a305082.delta",
+          "reverse": "8bc4cbba57afa2254a305082.reverse"
+        },
+        "relic": {
+          "sha256": "6fbbe8d1dda3f7f3926d6286bb111942a97e1ef625133e3f704f604bf6823fb0",
+          "forward": "3ae94e65c8aaf28c40953209.delta",
+          "reverse": "3ae94e65c8aaf28c40953209.reverse"
+        },
+        "both": {
+          "sha256": "011ce093245122ec5837f0afd87f9adac76dca6824802badcdad8d01d1c69b79",
+          "forward": "085de6af6aed939f3cccd43a.delta",
+          "reverse": "085de6af6aed939f3cccd43a.reverse"
+        }
+      }
+    },
+    {
+      "path": "UI/screens/standings_screen.gdc",
+      "base": "7d008af0a45a7bc985210422e875be064e822c3a3a3e238802f4e90f41bb2a2f",
+      "variants": {
+        "korean": {
+          "sha256": "1cb262b1c681ca51ad007c3c678abd0e7db3519ef732aabc230925b1f4520176",
+          "forward": "d627cbccae4684c60aaf5663.delta",
+          "reverse": "d627cbccae4684c60aaf5663.reverse"
+        }
+      }
+    }
+  ],
+  "relic_dependencies": {
+    "Scripts/Relics/InventoryService.gdc": "e614d5c3b1c6406a0a5e1bb9adc0ec47a658008846d898d23228574ee60cbd73",
+    "Scripts/Relics/ItemInstance.gdc": "32f530fcb476a66829bb61667c3f2b62af2fed554bf3ce0ad5772eb0b8017fd7",
+    "Scripts/Campaign/MercenaryInstance.gdc": "c0af3781ef640ba9fe16808a758eed95b70a5b193dcc6dccb0e021661958e2d5",
+    "Scripts/Campaign/CampaignSave.gdc": "d1c89664ff85eefeb8a13dacdb0e39c4d1741ebf98f7a89c325a1d9af61d63e7"
+  },
+  "extras": [
+    {
+      "path": "KoreanSupplement/PersonalNames.gd",
+      "file": "mods/KoreanSupplement/PersonalNames.gd",
+      "module": "korean",
+      "sha256": "bb0ba1e004708300ec074ad1a7b0c00f26d1239b4ce2ac8ba16ecb8ac0112dca"
+    },
+    {
+      "path": "KoreanSupplement/personal_names.json",
+      "file": "mods/KoreanSupplement/personal_names.json",
+      "module": "korean",
+      "sha256": "44fa3e8d9ac5fcd0eabe786389fd5e8f6b373a60fd78608fdd4774606e4d7186"
+    },
+    {
+      "path": "RelicPresets/RelicPresets.gd",
+      "file": "mods/RelicPresets/RelicPresets.gd",
+      "module": "relic",
+      "sha256": "9726ae37d1cbcc32654343da26e8f0b1dd575e8734cd895f490382667b59cc94"
+    }
+  ]
+}
