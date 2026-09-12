@@ -23,6 +23,7 @@ python source/mod_installer.py
 
 - `source/mod_installer.py`: 설치 창, 게임 탐색, 리소스 매칭, 백업과 적용.
 - `source/pck.py`: 사용자가 보유한 게임의 리소스 팩 읽기. 필요한 키는 해당 실행 파일에서 메모리 안에서만 확인하며 포함하거나 기록하지 않습니다.
+- `source/gdc.py`, `source/relic_contract.py`, `source/member_patch.py`: 토큰 읽기, 장착·저장 계약 검사, 함수·표시 구문 단위 자동 매칭. 줄 번호와 내부 식별자 배열 위치는 달라도 처리하며 타입·들여쓰기·필수 동작은 검증합니다.
 - `source/package/mods/KoreanSupplement/`: 표시용 이름 코드와 번역 데이터.
 - `source/package/mods/RelicPresets/RelicPresets.gd`: 유물 프리셋 및 소유 아이템 이동 처리.
 - `source/package/data/`: 게임 코드의 전체 사본이 아닌 검증용 해시와 가역 변경 데이터.

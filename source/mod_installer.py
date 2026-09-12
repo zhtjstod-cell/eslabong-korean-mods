@@ -20,6 +20,8 @@ import bsdiff4
 import psutil
 from Crypto.Cipher import AES
 from pck import Pack
+from relic_contract import mismatches
+from member_patch import apply as apply_members
 
 # Development uses the existing local dependency; frozen builds bundle it.
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'runtime/python_packages'))
@@ -75,20 +77,28 @@ def require_closed():
 def plan(pack, korean: bool, relic: bool, package: Path | None = None):
     package = package or package_root()
     manifest = json.loads((package/'data/manifest.json').read_text(encoding='utf-8'))
+    if manifest.get('format') != 2:
+        raise ValueError('설치 데이터 형식이 맞지 않습니다. 새 배포 압축을 별도 폴더에 모두 풀어 주세요.')
     replacements = {}
     skipped = []
     matched = 0
+    member_reports = {}
     if relic:
-        for name,expected in manifest['relic_dependencies'].items():
+        contracts = {**manifest['relic_dependencies'],'UI/screens/myteam_screen.gdc':manifest['relic_ui_contract']}
+        for name,expected in contracts.items():
             try:
-                actual = sha(script_raw(pack.read(name)))
-            except (KeyError,ValueError):
-                actual = None
-            if actual != expected:
-                raise RuntimeError('유물 모드의 필수 게임 코드가 일치하지 않습니다. 파일은 변경하지 않았습니다.\n'+name)
+                failed = mismatches(pack.read(name),expected)
+            except (KeyError,ValueError,AssertionError,IndexError,struct.error,zstandard.ZstdError):
+                failed = ['리소스 형식 또는 필수 항목 없음']
+            if failed:
+                raise RuntimeError('유물 장착·저장에 필요한 항목이 달라 안전하게 중단했습니다. 파일은 변경하지 않았습니다.\n'
+                                   +name+'\n확인이 필요한 항목: '+', '.join(failed)
+                                   +'\n한국어 보완만 설치하려면 유물 프리셋 체크를 해제해 주세요.')
     for record in manifest['resources']:
         name = record['path']
         if name not in pack.files:
+            if relic and name == 'UI/screens/myteam_screen.gdc':
+                raise RuntimeError('주전 저장 화면 리소스가 없어 유물 모드를 설치하지 않았습니다. 파일은 변경하지 않았습니다.')
             skipped.append(name)
             continue
         current = pack.read(name)
@@ -97,15 +107,33 @@ def plan(pack, korean: bool, relic: bool, package: Path | None = None):
         except ValueError:
             raw = b''
         digest = sha(raw)
-        base = raw if digest == record['base'] else None
-        for variant in record['variants'].values():
-            if digest == variant['sha256']:
-                base = bsdiff4.patch(raw,(package/'data'/variant['reverse']).read_bytes())
+        base = None
+        for candidate in [record,*record.get('alternatives',[])]:
+            if digest == candidate['base']:
+                base = raw
+            else:
+                for variant in candidate['variants'].values():
+                    if digest == variant['sha256']:
+                        base = bsdiff4.patch(raw,(package/'data'/variant['reverse']).read_bytes())
+                        break
+            if base is not None:
+                record = candidate
                 break
         if base is None:
-            if relic and name == 'UI/screens/myteam_screen.gdc':
-                raise RuntimeError('주전 저장 화면 코드가 일치하지 않아 유물 모드를 설치하지 않았습니다. 게임 파일은 그대로입니다.')
-            skipped.append(name)
+            recipes = [member for candidate in [record,*record.get('alternatives',[])] for member in candidate.get('members',[])]
+            if not recipes or not raw:
+                if relic and name == 'UI/screens/myteam_screen.gdc':
+                    raise RuntimeError('주전 저장 화면 형식을 읽을 수 없어 유물 모드를 설치하지 않았습니다. 파일은 변경하지 않았습니다.')
+                skipped.append(name)
+                continue
+            target,detail = apply_members(current,recipes,korean,relic,package)
+            member_reports[name] = detail
+            if detail['skipped']:
+                skipped.append(name)
+            else:
+                matched += 1
+            if target != current:
+                replacements[name] = target
             continue
         if sha(base) != record['base']:
             raise ValueError('Invalid reverse delta: '+name)
@@ -123,6 +151,23 @@ def plan(pack, korean: bool, relic: bool, package: Path | None = None):
     en = json.loads(pack.read('Localization/en.json').decode('utf-8-sig'))
     original_ko = pack.read('Localization/ko.json')
     ko = json.loads(original_ko.decode('utf-8-sig'))
+    state_path = 'KoreanSupplement/translation_state.json'
+    previous_state = pack.read(state_path) if state_path in pack.files else None
+    if previous_state is not None:
+        state = json.loads(previous_state.decode('utf-8'))
+        if state.get('format') != 1 or not isinstance(state.get('entries'),dict):
+            raise ValueError('번역 복구 기록의 형식이 달라 중단했습니다.')
+        owned = state['entries']
+        if any(key not in translations or entry != translations[key] for key,entry in owned.items()):
+            raise ValueError('번역 복구 기록에 알 수 없는 변경이 있어 중단했습니다.')
+    else:
+        owned = {}
+        # v1.0.0 and our pre-mod patch did not carry per-key ownership metadata.
+        # Adopt only their exact known complete Korean table, never infer from
+        # a value that may now also be supplied by the game itself.
+        digest = sha(json.dumps(ko,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode())
+        if digest == manifest.get('legacy_korean_content_sha256'):
+            owned = {key:entry for key,entry in translations.items() if ko.get(key)==entry['after']}
     language_matches,language_skips,language_changes = 0,0,0
     for key,entry in translations.items():
         current = ko.get(key)
@@ -130,16 +175,30 @@ def plan(pack, korean: bool, relic: bool, package: Path | None = None):
             language_skips += 1
             continue
         language_matches += 1
-        desired = entry['after'] if korean else entry['before']
+        # Restore only text this mod owns. The updated game can independently
+        # ship the same Korean value; removing the mod must not delete that text.
+        if not korean and key not in owned:
+            continue
+        desired = entry['after'] if korean else owned[key]['before']
         if desired == current:
+            if not korean:
+                owned.pop(key,None)
             continue
         language_changes += 1
         if desired is None:
             ko.pop(key,None)
         else:
             ko[key] = desired
+        if korean:
+            owned[key] = entry
+        else:
+            owned.pop(key,None)
     if language_changes:
         replacements['Localization/ko.json'] = (json.dumps(ko,ensure_ascii=False,indent='\t')+'\n').encode()
+    if owned or previous_state is not None:
+        payload = (json.dumps({'format':1,'entries':owned},ensure_ascii=False,sort_keys=True,indent=2)+'\n').encode()
+        if payload != previous_state:
+            replacements[state_path] = payload
     # Added helper resources are inert without matching hooks. Keep them on uninstall
     # so save/resource references and unrelated concurrent mods cannot be broken.
     for extra in manifest['extras']:
@@ -154,6 +213,9 @@ def plan(pack, korean: bool, relic: bool, package: Path | None = None):
         if extra['path'] not in pack.files:
             replacements[extra['path']] = payload
     report = {'korean':korean,'relic_presets':relic,'matched_scripts':matched,'skipped_scripts':skipped,
+              'installer_version':'1.0.1',
+              'member_matching':member_reports,
+              'relic_contract_members':sum(map(len,manifest['relic_dependencies'].values()))+len(manifest['relic_ui_contract']) if relic else 0,
               'matched_translation_entries':language_matches,'skipped_translation_entries':language_skips,
               'changed_resources':list(replacements)}
     return replacements,report
@@ -306,7 +368,7 @@ def gui():
     import tkinter as tk
     from tkinter import ttk,filedialog,messagebox
     root = tk.Tk()
-    root.title('Eslabong 한국어 보완 · 유물 프리셋 모드')
+    root.title('Eslabong 한국어 보완 · 유물 프리셋 모드 v1.0.1')
     root.geometry('780x540')
     root.minsize(700,480)
     frame = ttk.Frame(root,padding=18)
