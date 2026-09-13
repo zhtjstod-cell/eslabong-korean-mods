@@ -77,6 +77,52 @@ def require_closed():
 def plan(pack, korean: bool, relic: bool, package: Path | None = None):
     package = package or package_root()
     manifest = json.loads((package/'data/manifest.json').read_text(encoding='utf-8'))
+    layers = [manifest.get('display_overlays', []), *manifest.get('display_layers', [])]
+    overlays = [row for layer in layers for row in layer]
+    normalized = {}
+    # Peel off our supplemental display layer before processing the original
+    # reversible mod profiles. IDs, save/load hooks and inventory are not edited.
+    for row in [row for layer in reversed(layers) for row in layer]:
+        name = row['path']
+        if name not in pack.files:
+            continue
+        current = normalized[name] if name in normalized else pack.read(name)
+        target, _ = apply_members(current, row['members'], False, False, package)
+        if target != current:
+            normalized[name] = target
+
+    class BaseView:
+        files = pack.files
+        def read(self, name):
+            return normalized[name] if name in normalized else pack.read(name)
+
+    base_changes, report = _base_plan(BaseView(), korean, relic, package)
+    replacements = {**normalized, **base_changes}
+    display_reports = {}
+    if korean:
+        for row in overlays:
+            name = row['path']
+            if name not in pack.files:
+                display_reports[name] = {'matched': [], 'skipped': ['resource missing'], 'changed': []}
+                continue
+            current = replacements[name] if name in replacements else pack.read(name)
+            target, detail = apply_members(current, row['members'], True, False, package)
+            accumulated = display_reports.setdefault(name, {'matched': [], 'skipped': [], 'changed': []})
+            for key in accumulated:
+                accumulated[key] = sorted(set(accumulated[key]) | set(detail[key]))
+            if target != current:
+                replacements[name] = target
+    # Normalizing and reapplying is deliberately a no-op on a repeated install.
+    replacements = {name: data for name, data in replacements.items()
+                    if name not in pack.files or data != pack.read(name)}
+    report['display_matching'] = display_reports
+    report['changed_resources'] = list(replacements)
+    return replacements, report
+
+
+def _base_plan(pack, korean: bool, relic: bool, package: Path | None = None):
+    package = package or package_root()
+    manifest = json.loads((package/'data/manifest.json').read_text(encoding='utf-8'))
     if manifest.get('format') != 2:
         raise ValueError('설치 데이터 형식이 맞지 않습니다. 새 배포 압축을 별도 폴더에 모두 풀어 주세요.')
     replacements = {}
@@ -158,7 +204,7 @@ def plan(pack, korean: bool, relic: bool, package: Path | None = None):
         if state.get('format') != 1 or not isinstance(state.get('entries'),dict):
             raise ValueError('번역 복구 기록의 형식이 달라 중단했습니다.')
         owned = state['entries']
-        if any(key not in translations or entry != translations[key] for key,entry in owned.items()):
+        if any(key not in translations or (entry != translations[key] and entry not in translations[key].get('previous_entries', [])) for key,entry in owned.items()):
             raise ValueError('번역 복구 기록에 알 수 없는 변경이 있어 중단했습니다.')
     else:
         owned = {}
@@ -171,7 +217,7 @@ def plan(pack, korean: bool, relic: bool, package: Path | None = None):
     language_matches,language_skips,language_changes = 0,0,0
     for key,entry in translations.items():
         current = ko.get(key)
-        if en.get(key) != entry['en'] or current not in (entry['before'],entry['after']):
+        if en.get(entry.get('source_key', key)) not in [entry['en'], *entry.get('also_match_en', [])] or current not in (entry['before'],entry['after']):
             language_skips += 1
             continue
         language_matches += 1
@@ -209,11 +255,13 @@ def plan(pack, korean: bool, relic: bool, package: Path | None = None):
         if sha(payload) != extra['sha256']:
             raise ValueError('Mod payload checksum mismatch')
         if extra['path'] in pack.files and pack.read(extra['path'])!=payload:
-            raise RuntimeError('같은 경로의 보조 파일에 다른 수정이 있어 보호를 위해 중단했습니다: '+extra['path'])
+            if sha(pack.read(extra['path'])) not in extra.get('previous_sha256', []):
+                raise RuntimeError('같은 경로의 보조 파일에 다른 수정이 있어 보호를 위해 중단했습니다: '+extra['path'])
+            replacements[extra['path']] = payload
         if extra['path'] not in pack.files:
             replacements[extra['path']] = payload
     report = {'korean':korean,'relic_presets':relic,'matched_scripts':matched,'skipped_scripts':skipped,
-              'installer_version':'1.0.1',
+              'installer_version':'1.0.3',
               'member_matching':member_reports,
               'relic_contract_members':sum(map(len,manifest['relic_dependencies'].values()))+len(manifest['relic_ui_contract']) if relic else 0,
               'matched_translation_entries':language_matches,'skipped_translation_entries':language_skips,
@@ -273,10 +321,22 @@ def install(game, korean=True, relic=True, verify_only=False, log=print, package
         handle.flush()
         log('게임 데이터와 기존 모드 상태를 확인합니다...')
         before = file_sha(game/'eslabong.pck')
+        receipt = game/'mods/EslabongCommunityMods/installed.json'
+        if receipt.is_file():
+            try:
+                previous = json.loads(receipt.read_text(encoding='utf-8'))
+                if previous.get('after_sha256') and previous['after_sha256'] != before:
+                    log('이전 설치 후 게임 파일이 변경되었습니다. 현재 데이터에 맞는 항목을 다시 확인합니다.')
+            except (OSError, ValueError):
+                log('이전 설치 기록을 읽지 못했습니다. 현재 게임 데이터를 직접 검사합니다.')
         pack = Pack(game)
         replacements,report = plan(pack,korean,relic,package)
         report['game'] = str(game)
         log('스크립트 매칭 %d개 / 제외 %d개, 번역 매칭 %d개 / 제외 %d개' % (report['matched_scripts'],len(report['skipped_scripts']),report['matched_translation_entries'],report['skipped_translation_entries']))
+        if report.get('display_matching'):
+            details = report['display_matching'].values()
+            log('추가 이름·명칭 표시: 함수 %d개 매칭 / %d개 제외' %
+                (sum(len(d['matched']) for d in details), sum(len(d['skipped']) for d in details)))
         if verify_only:
             log('검사 완료. 게임 파일은 변경하지 않았습니다.')
             return report
@@ -368,7 +428,7 @@ def gui():
     import tkinter as tk
     from tkinter import ttk,filedialog,messagebox
     root = tk.Tk()
-    root.title('Eslabong 한국어 보완 · 유물 프리셋 모드 v1.0.1')
+    root.title('Eslabong 한국어 보완 · 유물 프리셋 모드 v1.0.3')
     root.geometry('780x540')
     root.minsize(700,480)
     frame = ttk.Frame(root,padding=18)

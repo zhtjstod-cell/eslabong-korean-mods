@@ -4,6 +4,7 @@ const DATA_PATH := "res://KoreanSupplement/personal_names.json"
 const CUSTOM_META := "korean_name_user_override"
 static var _data: Dictionary = {}
 static var _cache: Dictionary = {}
+static var _folded: Dictionary = {}
 
 static func _is_korean() -> bool:
 	var tree = Engine.get_main_loop() as SceneTree
@@ -18,6 +19,11 @@ static func _load_data() -> void:
 	var parsed = JSON.parse_string(FileAccess.get_file_as_string(DATA_PATH))
 	if parsed is Dictionary:
 		_data = parsed
+		for group in ["names", "fixed"]:
+			for raw in _data.get(group, {}):
+				if not _folded.has(str(raw).to_lower()):
+					_folded[str(raw).to_lower()] = _data[group][raw]
+		_folded["master luciv"] = "마스터 루시브"
 
 static func name_of(fighter: Variant) -> String:
 	if fighter == null:
@@ -43,14 +49,16 @@ static func text(original: String) -> String:
 		result = first_names[original]
 	elif fixed_names.has(original):
 		result = fixed_names[original]
+	elif _folded.has(original.to_lower()):
+		result = _folded[original.to_lower()]
 	else:
 		for title in titles:
 			var ending: String = " " + str(title)
-			if not original.ends_with(ending):
+			if not original.to_lower().ends_with(ending.to_lower()):
 				continue
 			var first: String = original.substr(0, original.length() - ending.length())
-			if first_names.has(first):
-				result = str(titles[title]) + " " + str(first_names[first])
+			if _folded.has(first.to_lower()):
+				result = str(titles[title]) + " " + str(_folded[first.to_lower()])
 				break
 	if _cache.size() < 20000:
 		_cache[original] = result

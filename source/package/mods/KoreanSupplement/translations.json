@@ -8608,5 +8608,71 @@
     "en": null,
     "before": null,
     "after": "연합"
+  },
+  "ui.myteam.power.show": {
+    "en": "Show team power",
+    "before": null,
+    "after": "팀 전투력 표시"
+  },
+  "ui.myteam.power.total": {
+    "en": "TEAM POWER: %d",
+    "before": null,
+    "after": "팀 전투력: %d"
+  },
+  "ui.myteam.power.tooltip": {
+    "en": "Power of your current Active lineup using the match-preview calculation, including fighter stats, abilities, relics, Form and match mode. Updates as you change fighters. Reserves are excluded.",
+    "before": null,
+    "after": "경기 미리보기와 같은 방식으로 계산한 현재 주전의 전투력입니다. 전투원의 능력치, 스킬, 유물, 폼과 경기 모드를 반영하며, 선수를 교체하면 갱신됩니다. 후보 선수는 제외됩니다."
+  },
+  "ui.club.challenge_tower.tower_update_required": {
+    "en": "Update the game to the current Steam default branch build, then restart it to access Challenge Tower.",
+    "before": null,
+    "after": "도전 타워를 이용하려면 Steam의 기본 브랜치에서 게임을 최신 상태로 업데이트한 뒤 다시 실행하세요."
+  },
+  "ui.club.challenge_tower.tower_version_unavailable": {
+    "en": "Could not verify the current Steam version. Please try again shortly.",
+    "before": null,
+    "after": "Steam의 최신 버전 정보를 확인하지 못했습니다. 잠시 후 다시 시도하세요.",
+    "previous_entries": [
+      {
+        "en": "Could not verify the current Steam version. Please try again shortly.",
+        "before": null,
+        "after": "Steam의 최신 버전 정보를 확인하지 못했습니다. 잠시 후 다시 시도하세요."
+      }
+    ],
+    "also_match_en": [
+      "The server could not verify the current Steam version. Please try again shortly."
+    ]
+  },
+  "ui.club.challenge_tower.checking_version": {
+    "en": "Checking Steam version...",
+    "before": null,
+    "after": "Steam 버전 확인 중..."
+  },
+  "ui.club.challenge_tower.update_required_title": {
+    "en": "Update required",
+    "before": null,
+    "after": "업데이트 필요"
+  },
+  "ui.club.challenge_tower.connection_required_title": {
+    "en": "Connection unavailable",
+    "before": null,
+    "after": "연결할 수 없음"
+  },
+  "ui.club.challenge_tower.service_unavailable_title": {
+    "en": "Service unavailable",
+    "before": null,
+    "after": "서비스 이용 불가"
+  },
+  "ui.club.challenge_tower.tower_service_unavailable": {
+    "en": "Challenge Tower is temporarily unavailable. Please try again later.",
+    "before": null,
+    "after": "현재 도전 타워를 일시적으로 이용할 수 없습니다. 나중에 다시 시도하세요."
+  },
+  "merc.rockscar.name": {
+    "en": "Rockscar",
+    "source_key": "merc.rockguard.name",
+    "before": null,
+    "after": "록스카"
   }
 }
