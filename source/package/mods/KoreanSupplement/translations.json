@@ -7420,14 +7420,38 @@
     "after": "다시 배정"
   },
   "ui.club.challenge_tower.composition.too_many_champions": {
-    "en": null,
+    "en": "Challenge Tower allows at most one Champion. Active Champions: %s",
     "before": null,
-    "after": "도전의 탑에는 챔피언이 최대 한 명만 출전할 수 있습니다. 현재 출전 챔피언: %s"
+    "after": "도전의 탑에는 챔피언을 최대 한 명만 출전시킬 수 있습니다. 현재 주전 챔피언: %s",
+    "previous_entries": [
+      {
+        "en": null,
+        "before": null,
+        "after": "도전의 탑에는 챔피언이 최대 한 명만 출전할 수 있습니다. 현재 출전 챔피언: %s"
+      },
+      {
+        "en": "Challenge Tower allows at most one Champion. Active Champions: %s",
+        "before": null,
+        "after": "도전의 탑에는 챔피언을 최대 한 명만 출전시킬 수 있습니다. 현재 주전 챔피언: %s"
+      }
+    ]
   },
   "ui.club.challenge_tower.composition.duplicate_class": {
-    "en": null,
+    "en": "Challenge Tower allows at most one fighter of each class. Duplicate class: %s",
     "before": null,
-    "after": "도전의 탑에는 클래스마다 전투원이 최대 한 명만 출전할 수 있습니다. 중복 클래스: %s"
+    "after": "도전의 탑에는 같은 직업을 한 명씩만 출전시킬 수 있습니다. 중복 직업: %s",
+    "previous_entries": [
+      {
+        "en": null,
+        "before": null,
+        "after": "도전의 탑에는 클래스마다 전투원이 최대 한 명만 출전할 수 있습니다. 중복 클래스: %s"
+      },
+      {
+        "en": "Challenge Tower allows at most one fighter of each class. Duplicate class: %s",
+        "before": null,
+        "after": "도전의 탑에는 같은 직업을 한 명씩만 출전시킬 수 있습니다. 중복 직업: %s"
+      }
+    ]
   },
   "ui.club.challenge_tower.ranked_campaign_generation_locked": {
     "en": null,
@@ -8622,26 +8646,60 @@
   "ui.myteam.power.tooltip": {
     "en": "Power of your current Active lineup using the match-preview calculation, including fighter stats, abilities, relics, Form and match mode. Updates as you change fighters. Reserves are excluded.",
     "before": null,
-    "after": "경기 미리보기와 같은 방식으로 계산한 현재 주전의 전투력입니다. 전투원의 능력치, 스킬, 유물, 폼과 경기 모드를 반영하며, 선수를 교체하면 갱신됩니다. 후보 선수는 제외됩니다."
+    "after": "경기 미리보기와 같은 방식으로 계산한 현재 주전의 전투력입니다. 전투원의 능력치, 스킬, 유물, 폼, 경기 방식을 반영하며 선수를 바꾸면 갱신됩니다. 후보 선수는 제외됩니다.",
+    "previous_entries": [
+      {
+        "en": "Power of your current Active lineup using the match-preview calculation, including fighter stats, abilities, relics, Form and match mode. Updates as you change fighters. Reserves are excluded.",
+        "before": null,
+        "after": "경기 미리보기와 같은 방식으로 계산한 현재 주전의 전투력입니다. 전투원의 능력치, 스킬, 유물, 폼과 경기 모드를 반영하며, 선수를 교체하면 갱신됩니다. 후보 선수는 제외됩니다."
+      },
+      {
+        "en": "Power of your current Active lineup using the match-preview calculation, including fighter stats, abilities, relics, Form and match mode. Updates as you change fighters. Reserves are excluded.",
+        "before": null,
+        "after": "경기 미리보기와 같은 방식으로 계산한 현재 주전의 전투력입니다. 전투원의 능력치, 스킬, 유물, 폼, 경기 방식을 반영하며 선수를 바꾸면 갱신됩니다. 후보 선수는 제외됩니다."
+      }
+    ]
   },
   "ui.club.challenge_tower.tower_update_required": {
     "en": "Update the game to the current Steam default branch build, then restart it to access Challenge Tower.",
     "before": null,
-    "after": "도전 타워를 이용하려면 Steam의 기본 브랜치에서 게임을 최신 상태로 업데이트한 뒤 다시 실행하세요."
+    "after": "Steam 기본 배포 버전의 최신 빌드로 게임을 업데이트한 뒤 다시 실행하면 도전의 탑을 이용할 수 있습니다.",
+    "previous_entries": [
+      {
+        "en": "Update the game to the current Steam default branch build, then restart it to access Challenge Tower.",
+        "before": null,
+        "after": "도전 타워를 이용하려면 Steam의 기본 브랜치에서 게임을 최신 상태로 업데이트한 뒤 다시 실행하세요."
+      },
+      {
+        "en": "Update the game to the current Steam default branch build, then restart it to access Challenge Tower.",
+        "before": null,
+        "after": "Steam 기본 배포 버전의 최신 빌드로 게임을 업데이트한 뒤 다시 실행하면 도전의 탑을 이용할 수 있습니다."
+      }
+    ]
   },
   "ui.club.challenge_tower.tower_version_unavailable": {
-    "en": "Could not verify the current Steam version. Please try again shortly.",
+    "en": "The server could not verify the current Steam version. Please try again shortly.",
     "before": null,
-    "after": "Steam의 최신 버전 정보를 확인하지 못했습니다. 잠시 후 다시 시도하세요.",
+    "after": "서버에서 현재 Steam 버전을 확인하지 못했습니다. 잠시 후 다시 시도해 주세요.",
     "previous_entries": [
       {
         "en": "Could not verify the current Steam version. Please try again shortly.",
         "before": null,
         "after": "Steam의 최신 버전 정보를 확인하지 못했습니다. 잠시 후 다시 시도하세요."
+      },
+      {
+        "en": "Could not verify the current Steam version. Please try again shortly.",
+        "before": null,
+        "after": "Steam의 최신 버전 정보를 확인하지 못했습니다. 잠시 후 다시 시도하세요.",
+        "also_match_en": [
+          "The server could not verify the current Steam version. Please try again shortly."
+        ]
+      },
+      {
+        "en": "The server could not verify the current Steam version. Please try again shortly.",
+        "before": null,
+        "after": "서버에서 현재 Steam 버전을 확인하지 못했습니다. 잠시 후 다시 시도해 주세요."
       }
-    ],
-    "also_match_en": [
-      "The server could not verify the current Steam version. Please try again shortly."
     ]
   },
   "ui.club.challenge_tower.checking_version": {
@@ -8667,12 +8725,589 @@
   "ui.club.challenge_tower.tower_service_unavailable": {
     "en": "Challenge Tower is temporarily unavailable. Please try again later.",
     "before": null,
-    "after": "현재 도전 타워를 일시적으로 이용할 수 없습니다. 나중에 다시 시도하세요."
+    "after": "도전의 탑을 일시적으로 이용할 수 없습니다. 나중에 다시 시도해 주세요.",
+    "previous_entries": [
+      {
+        "en": "Challenge Tower is temporarily unavailable. Please try again later.",
+        "before": null,
+        "after": "현재 도전 타워를 일시적으로 이용할 수 없습니다. 나중에 다시 시도하세요."
+      },
+      {
+        "en": "Challenge Tower is temporarily unavailable. Please try again later.",
+        "before": null,
+        "after": "도전의 탑을 일시적으로 이용할 수 없습니다. 나중에 다시 시도해 주세요."
+      }
+    ]
   },
   "merc.rockscar.name": {
     "en": "Rockscar",
     "source_key": "merc.rockguard.name",
     "before": null,
     "after": "록스카"
+  },
+  "ui.options.hud.show_hud": {
+    "en": "Show Combat HUD",
+    "before": null,
+    "after": "전투 HUD 표시"
+  },
+  "ui.options.hud.opacity": {
+    "en": "HUD Opacity",
+    "before": null,
+    "after": "HUD 불투명도"
+  },
+  "ui.options.desc.battle_hud_visible": {
+    "en": "Shows the combat HUD for all local players. Disable to clear the view. Pause and Options remain available. Enabled by default.",
+    "before": null,
+    "after": "모든 로컬 플레이어의 전투 HUD를 표시합니다. 끄면 화면을 가리는 HUD가 사라집니다. 일시 정지와 설정 메뉴는 계속 사용할 수 있습니다. 기본값은 켜짐입니다."
+  },
+  "ui.options.desc.battle_hud_opacity": {
+    "en": "Makes the combat HUD more transparent for all local players. 100% keeps its original appearance. Pause and Options remain fully opaque.",
+    "before": null,
+    "after": "모든 로컬 플레이어의 전투 HUD 투명도를 조절합니다. 100%에서는 원래 모습으로 표시됩니다. 일시 정지와 설정 메뉴의 불투명도는 바뀌지 않습니다."
+  },
+  "ui.club.rebirth_growth.confirm_reroll": {
+    "en": "Rebirth + reroll",
+    "before": null,
+    "after": "환생 및 성장 특성 재설정"
+  },
+  "ui.club.rebirth_growth.result_intro": {
+    "en": "%s has begun a new path at Level 1.",
+    "before": null,
+    "after": "%s이(가) 1레벨에서 새로운 여정을 시작했습니다."
+  },
+  "ui.club.rebirth_growth.result_cost": {
+    "en": "Renown spent: %d",
+    "before": null,
+    "after": "소모한 명성: %d"
+  },
+  "ui.club.rebirth_growth.reroll": {
+    "en": "Reroll Growth Style · +%d Renown",
+    "before": null,
+    "after": "성장 특성 재설정 · 명성 +%d"
+  },
+  "ui.club.rebirth_growth.reroll_hint": {
+    "en": "Available from a champion's first Rebirth, or any other fighter's second. One random roll on confirmation replaces your affinities and their quality; the result may be better, worse or the same.",
+    "before": null,
+    "after": "챔피언은 첫 환생부터, 다른 전투원은 두 번째 환생부터 사용할 수 있습니다. 확인하면 성장 특성의 종류와 등급을 한 번 무작위로 다시 결정합니다. 결과는 이전보다 좋아지거나 나빠질 수 있으며, 같을 수도 있습니다."
+  },
+  "ui.club.rebirth_growth.reroll_locked": {
+    "en": "Growth Style rerolls unlock on this fighter's second Rebirth. Champions can reroll from their first.",
+    "before": null,
+    "after": "이 전투원은 두 번째 환생부터 성장 특성을 재설정할 수 있습니다. 챔피언은 첫 환생부터 가능합니다."
+  },
+  "ui.club.rebirth_growth.reroll_pending": {
+    "en": "New growth will be revealed after Rebirth. Your current ratings will be replaced.",
+    "before": null,
+    "after": "환생 후 새로운 성장 특성이 공개됩니다. 현재 성장 등급은 새 결과로 대체됩니다."
+  },
+  "ui.club.rebirth_growth.reroll_selected": {
+    "en": "Reroll selected · One roll, applied together with Rebirth.",
+    "before": null,
+    "after": "성장 특성 재설정 선택됨 · 환생과 함께 한 번 무작위로 결정합니다."
+  },
+  "ui.club.rebirth_growth.total_cost": {
+    "en": "Cost: %d Renown",
+    "before": null,
+    "after": "비용: 명성 %d"
+  },
+  "ui.club.rebirth_growth.balance_after": {
+    "en": "Balance after: %d Renown",
+    "before": null,
+    "after": "사용 후 명성: %d"
+  },
+  "ui.club.rebirth_growth.reroll_warning": {
+    "en": "Permanently resets level-earned stats and all skill progression. Keeps identity, history, injuries, Form, medals, tactics and relics. Replaces your Growth Style with one random roll, including affinity count and quality.",
+    "before": null,
+    "after": "레벨업으로 얻은 능력치와 모든 스킬 성장 내역을 영구적으로 초기화합니다. 이름과 정체성, 이력, 부상, 폼, 메달, 전술, 유물은 유지됩니다. 성장 특성은 개수와 등급을 포함해 한 번 무작위로 다시 결정합니다."
+  },
+  "ui.club.rebirth_growth.reroll_result_title": {
+    "en": "Growth Style Reborn",
+    "before": null,
+    "after": "새로 태어난 성장 특성"
+  },
+  "ui.club.rebirth_growth.reroll_result": {
+    "en": "%s has begun a new path.\n\nNew Growth Style: %s",
+    "before": null,
+    "after": "%s이(가) 새로운 여정을 시작했습니다.\n\n새 성장 특성: %s"
+  },
+  "ui.club.academy.skill_short": {
+    "en": "SKILL",
+    "before": null,
+    "after": "스킬"
+  },
+  "ui.club.academy.level_up_cost": {
+    "en": "LEVELUP - %d",
+    "before": null,
+    "after": "레벨업 - %d"
+  },
+  "ui.club.challenge_tower.ranked_previous_result_pending": {
+    "en": "Your previous Ranked result is still syncing. Please try again in a moment.",
+    "before": null,
+    "after": "이전 랭크 경기 결과를 아직 동기화 중입니다. 잠시 후 다시 시도해 주세요."
+  },
+  "ui.club.challenge_tower.tower_connection_unavailable": {
+    "en": "Could not connect to Challenge Tower. Check your connection and try again.",
+    "before": null,
+    "after": "도전의 탑에 연결하지 못했습니다. 연결 상태를 확인하고 다시 시도해 주세요."
+  },
+  "ui.club.challenge_tower.steam_unavailable_title": {
+    "en": "Steam unavailable",
+    "before": null,
+    "after": "Steam 연결 불가"
+  },
+  "ui.club.challenge_tower.tower_steam_unavailable": {
+    "en": "Could not connect to Steam. Open Steam, then launch the game from your library to access Challenge Tower.",
+    "before": null,
+    "after": "Steam에 연결하지 못했습니다. Steam을 연 다음 라이브러리에서 게임을 실행해 도전의 탑에 접속해 주세요."
+  },
+  "ui.appearance.skin_tone": {
+    "en": "Skin tone",
+    "before": null,
+    "after": "피부색"
+  },
+  "ui.appearance.skin_color": {
+    "en": "Skin tone",
+    "before": null,
+    "after": "피부색"
+  },
+  "ui.appearance.skin": {
+    "en": "Skin tone",
+    "before": null,
+    "after": "피부색"
+  },
+  "ui.appearance.hair_style": {
+    "en": "Hairstyle",
+    "before": null,
+    "after": "머리 모양"
+  },
+  "ui.appearance.hair_color": {
+    "en": "Hair color",
+    "before": null,
+    "after": "머리색"
+  },
+  "ui.appearance.hair": {
+    "en": "Hair",
+    "before": null,
+    "after": "머리카락"
+  },
+  "ui.appearance.beard": {
+    "en": "Beard / mustache",
+    "before": null,
+    "after": "턱수염·콧수염"
+  },
+  "ui.appearance.beard_style": {
+    "en": "Beard / mustache",
+    "before": null,
+    "after": "턱수염·콧수염"
+  },
+  "ui.appearance.beard_color": {
+    "en": "Beard color",
+    "before": null,
+    "after": "수염 색"
+  },
+  "ui.appearance.outfit": {
+    "en": "Outfit",
+    "before": null,
+    "after": "의상"
+  },
+  "ui.appearance.face": {
+    "en": "Face",
+    "before": null,
+    "after": "얼굴"
+  },
+  "ui.appearance.helmet_metal": {
+    "en": "Helmet metal",
+    "before": null,
+    "after": "투구 금속"
+  },
+  "ui.appearance.helmet_color": {
+    "en": "Helmet color",
+    "before": null,
+    "after": "투구 색"
+  },
+  "ui.appearance.cape_color": {
+    "en": "Cape color",
+    "before": null,
+    "after": "망토 색"
+  },
+  "ui.appearance.shield": {
+    "en": "Shield",
+    "before": null,
+    "after": "방패"
+  },
+  "ui.appearance.armor": {
+    "en": "Armor",
+    "before": null,
+    "after": "갑옷"
+  },
+  "ui.appearance.eye_color": {
+    "en": "Eye color",
+    "before": null,
+    "after": "눈 색"
+  },
+  "ui.appearance.hat": {
+    "en": "Hat",
+    "before": null,
+    "after": "모자"
+  },
+  "ui.appearance.trim_color": {
+    "en": "Trim color",
+    "before": null,
+    "after": "테두리 색"
+  },
+  "ui.appearance.crest": {
+    "en": "Crest",
+    "before": null,
+    "after": "투구 장식"
+  },
+  "ui.appearance.profile": {
+    "en": "Outfit style",
+    "before": null,
+    "after": "의상 스타일"
+  },
+  "ui.appearance.pants_color": {
+    "en": "Pants color",
+    "before": null,
+    "after": "바지 색"
+  },
+  "ui.appearance.horns": {
+    "en": "Horns",
+    "before": null,
+    "after": "뿔"
+  },
+  "ui.appearance.facial_hair": {
+    "en": "Facial hair",
+    "before": null,
+    "after": "수염"
+  },
+  "ui.appearance.facial_hair_color": {
+    "en": "Facial hair color",
+    "before": null,
+    "after": "수염 색"
+  },
+  "ui.appearance.bracers_color": {
+    "en": "Bracers color",
+    "before": null,
+    "after": "손목 보호대 색"
+  },
+  "ui.appearance.style": {
+    "en": "Outfit style",
+    "before": null,
+    "after": "의상 스타일"
+  },
+  "ui.appearance.ears": {
+    "en": "Ears",
+    "before": null,
+    "after": "귀"
+  },
+  "ui.appearance.pants": {
+    "en": "Pants",
+    "before": null,
+    "after": "바지"
+  },
+  "ui.appearance.footwear": {
+    "en": "Footwear",
+    "before": null,
+    "after": "신발"
+  },
+  "ui.appearance.footwear_color": {
+    "en": "Footwear color",
+    "before": null,
+    "after": "신발 색"
+  },
+  "ui.appearance.bracers": {
+    "en": "Bracers",
+    "before": null,
+    "after": "손목 보호대"
+  },
+  "ui.appearance.shoulder": {
+    "en": "Shoulder wrap",
+    "before": null,
+    "after": "어깨 두르개"
+  },
+  "ui.appearance.shoulder_color": {
+    "en": "Wrap color",
+    "before": null,
+    "after": "어깨 두르개 색"
+  },
+  "ui.appearance.waist": {
+    "en": "Belt / sash",
+    "before": null,
+    "after": "허리띠·허리 장식"
+  },
+  "ui.appearance.waist_color": {
+    "en": "Belt / sash color",
+    "before": null,
+    "after": "허리띠·허리 장식 색"
+  },
+  "ui.appearance.look": {
+    "en": "Outfit",
+    "before": null,
+    "after": "의상"
+  },
+  "ui.appearance.shirt": {
+    "en": "Top",
+    "before": null,
+    "after": "상의"
+  },
+  "ui.appearance.boots": {
+    "en": "Footwear",
+    "before": null,
+    "after": "신발"
+  },
+  "ui.appearance.headwear_style": {
+    "en": "Headwear",
+    "before": null,
+    "after": "머리 장식"
+  },
+  "ui.appearance.scarf_style": {
+    "en": "Scarf",
+    "before": null,
+    "after": "목도리"
+  },
+  "ui.appearance.torso_style": {
+    "en": "Top style",
+    "before": null,
+    "after": "상의 스타일"
+  },
+  "ui.appearance.tabard_style": {
+    "en": "Tabard",
+    "before": null,
+    "after": "타바드"
+  },
+  "ui.appearance.pants_style": {
+    "en": "Pants",
+    "before": null,
+    "after": "바지"
+  },
+  "ui.appearance.headwear_color": {
+    "en": "Headwear color",
+    "before": null,
+    "after": "머리 장식 색"
+  },
+  "ui.appearance.scarf_color": {
+    "en": "Scarf color",
+    "before": null,
+    "after": "목도리 색"
+  },
+  "ui.appearance.torso_color": {
+    "en": "Top color",
+    "before": null,
+    "after": "상의 색"
+  },
+  "ui.appearance.tabard_color": {
+    "en": "Tabard color",
+    "before": null,
+    "after": "타바드 색"
+  },
+  "ui.appearance.gloves_color": {
+    "en": "Gloves color",
+    "before": null,
+    "after": "장갑 색"
+  },
+  "ui.appearance.dress": {
+    "en": "Dress",
+    "before": null,
+    "after": "드레스"
+  },
+  "ui.appearance.dress_color": {
+    "en": "Dress color",
+    "before": null,
+    "after": "드레스 색"
+  },
+  "ui.appearance.tabard": {
+    "en": "Tabard",
+    "before": null,
+    "after": "타바드"
+  },
+  "ui.appearance.generation": {
+    "en": "Outfit style",
+    "before": null,
+    "after": "의상 스타일"
+  },
+  "ui.appearance.equipment": {
+    "en": "Equipment style",
+    "before": null,
+    "after": "장비 스타일"
+  },
+  "ui.appearance.head": {
+    "en": "Face",
+    "before": null,
+    "after": "얼굴"
+  },
+  "ui.appearance.eyes": {
+    "en": "Eyes",
+    "before": null,
+    "after": "눈"
+  },
+  "ui.appearance.nose": {
+    "en": "Nose",
+    "before": null,
+    "after": "코"
+  },
+  "ui.appearance.wrinkles": {
+    "en": "Wrinkles",
+    "before": null,
+    "after": "주름"
+  },
+  "ui.appearance.overlay": {
+    "en": "Vest / apron",
+    "before": null,
+    "after": "조끼·앞치마"
+  },
+  "ui.appearance.coat": {
+    "en": "Coat",
+    "before": null,
+    "after": "외투"
+  },
+  "ui.appearance.skirt": {
+    "en": "Skirt",
+    "before": null,
+    "after": "치마"
+  },
+  "ui.appearance.skirt_color": {
+    "en": "Skirt color",
+    "before": null,
+    "after": "치마 색"
+  },
+  "ui.appearance.shoulders": {
+    "en": "Shoulders",
+    "before": null,
+    "after": "어깨 장식"
+  },
+  "ui.appearance.gloves": {
+    "en": "Gloves",
+    "before": null,
+    "after": "장갑"
+  },
+  "ui.appearance.hood": {
+    "en": "Hood",
+    "before": null,
+    "after": "후드"
+  },
+  "ui.appearance.earring": {
+    "en": "Earring",
+    "before": null,
+    "after": "귀걸이"
+  },
+  "ui.appearance.cloth_color": {
+    "en": "Clothing color",
+    "before": null,
+    "after": "옷감 색"
+  },
+  "ui.appearance.outerwear": {
+    "en": "Outerwear",
+    "before": null,
+    "after": "겉옷"
+  },
+  "ui.appearance.outerwear_color": {
+    "en": "Outerwear color",
+    "before": null,
+    "after": "겉옷 색"
+  },
+  "ui.appearance.coat_color": {
+    "en": "Coat color",
+    "before": null,
+    "after": "외투 색"
+  },
+  "ui.appearance.outer": {
+    "en": "Outerwear",
+    "before": null,
+    "after": "겉옷"
+  },
+  "ui.appearance.outer_color": {
+    "en": "Outerwear color",
+    "before": null,
+    "after": "겉옷 색"
+  },
+  "ui.appearance.apron": {
+    "en": "Apron",
+    "before": null,
+    "after": "앞치마"
+  },
+  "ui.appearance.apron_color": {
+    "en": "Apron color",
+    "before": null,
+    "after": "앞치마 색"
+  },
+  "ui.appearance.hat_finish": {
+    "en": "Hat trim",
+    "before": null,
+    "after": "모자 테두리 장식"
+  },
+  "ui.appearance.body_color": {
+    "en": "Body color",
+    "before": null,
+    "after": "몸통 색"
+  },
+  "ui.appearance.head_color": {
+    "en": "Head color",
+    "before": null,
+    "after": "머리 색"
+  },
+  "ui.appearance.tail_color": {
+    "en": "Tail color",
+    "before": null,
+    "after": "꼬리 색"
+  },
+  "ui.appearance.wings_color": {
+    "en": "Wings color",
+    "before": null,
+    "after": "날개 색"
+  },
+  "ui.appearance.hoofs_color": {
+    "en": "Hooves color",
+    "before": null,
+    "after": "발굽 색"
+  },
+  "ui.appearance.legs_color": {
+    "en": "Greaves color",
+    "before": null,
+    "after": "다리 갑옷 색"
+  },
+  "ui.appearance.none": {
+    "en": "None",
+    "before": null,
+    "after": "없음"
+  },
+  "ui.appearance.sprint": {
+    "en": "Run",
+    "before": null,
+    "after": "달리기"
+  },
+  "merc.riftwalker.name": {
+    "en": "Mirage",
+    "before": "Mirage",
+    "after": "미라주"
+  },
+  "ui.ability.riftwalker.phase_edge.quote": {
+    "en": "I'm here to blur the line between life and death",
+    "before": null,
+    "after": "삶과 죽음의 경계를 흐리러 왔어."
+  },
+  "ui.ability.riftwalker.fold_step.quote": {
+    "en": "Navigator's Guild favorite technique",
+    "before": null,
+    "after": "항해사 길드가 애용하는 기술이지."
+  },
+  "ui.ability.riftwalker.return.quote": {
+    "en": "I never leave without a way back",
+    "before": null,
+    "after": "돌아올 길도 없이 떠나는 법은 없어."
+  },
+  "ui.ability.riftwalker.interceptor.quote": {
+    "en": "I sting from the shadows",
+    "before": null,
+    "after": "그림자 속에서 찌른다."
+  },
+  "ui.ability.riftwalker.steel_constellation.quote": {
+    "en": "I'm an immaterial girl",
+    "before": null,
+    "after": "난 붙잡을 수 없는 여자야."
+  },
+  "ui.ability.riftwalker.rift_needle.quote": {
+    "en": "This should make my life easier",
+    "before": null,
+    "after": "이제 좀 편해지겠네."
   }
 }

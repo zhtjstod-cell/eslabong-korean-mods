@@ -16431,6 +16431,50 @@
           }
         ]
       }
+    ],
+    [
+      {
+        "path": "UI/theme/eslabong_theme.gdc",
+        "members": [
+          {
+            "name": "fighter_accessible_name",
+            "base": "b0ddb79c971046f12115d711bdf38c9c1e95e7a95fbf70a759d0fca911e839bd",
+            "variants": {
+              "korean": {
+                "sha256": "994c85e6dacd189d0067f6068d017ad30ead2cee440d0429ad5565360a83b06c",
+                "forward": "269ba5ba933aab64d1066241.delta",
+                "reverse": "269ba5ba933aab64d1066241.reverse"
+              }
+            },
+            "relic_required": false,
+            "line_fallback": {
+              "signature": "0dfbc384a303dbe61be5c6122f29fdc00096293170b7869b6321ffd4bcfd4a64",
+              "lines": [
+                {
+                  "base": "d3448aa72446d5ddc129f19125326f6ba9354f465f9e2d41f7c3b827f83db350",
+                  "variants": {
+                    "korean": {
+                      "sha256": "5dd8b8b06eea93a8adba66e80af9f42ef73262c55dc6abd131d984976561e306",
+                      "forward": "b60c66e58847001ae757e6f9.delta",
+                      "reverse": "b60c66e58847001ae757e6f9.reverse"
+                    }
+                  },
+                  "count": 1
+                }
+              ]
+            }
+          }
+        ]
+      }
     ]
-  ]
+  ],
+  "relic_contract_alternatives": {
+    "UI/screens/myteam_screen.gdc": [
+      {
+        "_commit_pending_lineup_changes": "0406320252b37b124e12fe7c7d15113e59f629fcd3ca320785dd4b51453439aa",
+        "_normalize_pending_deployment": "ef17ea7b12240a7f995988d831790e01c6fe40aba317cd359919c728dbb681ba",
+        "_lineup_relics_allowed": "e106861a780a0da29c285496314230520ef3d2b6ad0d09b860fb2de6f0f27366"
+      }
+    ]
+  }
 }

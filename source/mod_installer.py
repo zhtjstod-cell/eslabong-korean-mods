@@ -22,6 +22,7 @@ from Crypto.Cipher import AES
 from pck import Pack
 from relic_contract import mismatches
 from member_patch import apply as apply_members
+from translation_matching import apply as apply_translations, STATE_PATH
 
 # Development uses the existing local dependency; frozen builds bundle it.
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'runtime/python_packages'))
@@ -133,7 +134,9 @@ def _base_plan(pack, korean: bool, relic: bool, package: Path | None = None):
         contracts = {**manifest['relic_dependencies'],'UI/screens/myteam_screen.gdc':manifest['relic_ui_contract']}
         for name,expected in contracts.items():
             try:
-                failed = mismatches(pack.read(name),expected)
+                profiles = [expected, *manifest.get('relic_contract_alternatives', {}).get(name, [])]
+                results = [mismatches(pack.read(name), profile) for profile in profiles]
+                failed = min(results, key=len)
             except (KeyError,ValueError,AssertionError,IndexError,struct.error,zstandard.ZstdError):
                 failed = ['리소스 형식 또는 필수 항목 없음']
             if failed:
@@ -197,54 +200,15 @@ def _base_plan(pack, korean: bool, relic: bool, package: Path | None = None):
     en = json.loads(pack.read('Localization/en.json').decode('utf-8-sig'))
     original_ko = pack.read('Localization/ko.json')
     ko = json.loads(original_ko.decode('utf-8-sig'))
-    state_path = 'KoreanSupplement/translation_state.json'
+    state_path = STATE_PATH
     previous_state = pack.read(state_path) if state_path in pack.files else None
-    if previous_state is not None:
-        state = json.loads(previous_state.decode('utf-8'))
-        if state.get('format') != 1 or not isinstance(state.get('entries'),dict):
-            raise ValueError('번역 복구 기록의 형식이 달라 중단했습니다.')
-        owned = state['entries']
-        if any(key not in translations or (entry != translations[key] and entry not in translations[key].get('previous_entries', [])) for key,entry in owned.items()):
-            raise ValueError('번역 복구 기록에 알 수 없는 변경이 있어 중단했습니다.')
-    else:
-        owned = {}
-        # v1.0.0 and our pre-mod patch did not carry per-key ownership metadata.
-        # Adopt only their exact known complete Korean table, never infer from
-        # a value that may now also be supplied by the game itself.
-        digest = sha(json.dumps(ko,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode())
-        if digest == manifest.get('legacy_korean_content_sha256'):
-            owned = {key:entry for key,entry in translations.items() if ko.get(key)==entry['after']}
-    language_matches,language_skips,language_changes = 0,0,0
-    for key,entry in translations.items():
-        current = ko.get(key)
-        if en.get(entry.get('source_key', key)) not in [entry['en'], *entry.get('also_match_en', [])] or current not in (entry['before'],entry['after']):
-            language_skips += 1
-            continue
-        language_matches += 1
-        # Restore only text this mod owns. The updated game can independently
-        # ship the same Korean value; removing the mod must not delete that text.
-        if not korean and key not in owned:
-            continue
-        desired = entry['after'] if korean else owned[key]['before']
-        if desired == current:
-            if not korean:
-                owned.pop(key,None)
-            continue
-        language_changes += 1
-        if desired is None:
-            ko.pop(key,None)
-        else:
-            ko[key] = desired
-        if korean:
-            owned[key] = entry
-        else:
-            owned.pop(key,None)
-    if language_changes:
+    ko, payload, language_report = apply_translations(
+        en, ko, translations, korean, previous_state,
+        manifest.get('legacy_korean_content_sha256'))
+    if language_report['translation_changes']:
         replacements['Localization/ko.json'] = (json.dumps(ko,ensure_ascii=False,indent='\t')+'\n').encode()
-    if owned or previous_state is not None:
-        payload = (json.dumps({'format':1,'entries':owned},ensure_ascii=False,sort_keys=True,indent=2)+'\n').encode()
-        if payload != previous_state:
-            replacements[state_path] = payload
+    if payload is not None and payload != previous_state:
+        replacements[state_path] = payload
     # Added helper resources are inert without matching hooks. Keep them on uninstall
     # so save/resource references and unrelated concurrent mods cannot be broken.
     for extra in manifest['extras']:
@@ -261,10 +225,10 @@ def _base_plan(pack, korean: bool, relic: bool, package: Path | None = None):
         if extra['path'] not in pack.files:
             replacements[extra['path']] = payload
     report = {'korean':korean,'relic_presets':relic,'matched_scripts':matched,'skipped_scripts':skipped,
-              'installer_version':'1.0.3',
+              'installer_version':'1.1.0',
               'member_matching':member_reports,
               'relic_contract_members':sum(map(len,manifest['relic_dependencies'].values()))+len(manifest['relic_ui_contract']) if relic else 0,
-              'matched_translation_entries':language_matches,'skipped_translation_entries':language_skips,
+              **language_report,
               'changed_resources':list(replacements)}
     return replacements,report
 
@@ -303,7 +267,8 @@ def stage(pack, target, replacements):
         os.fsync(out.fileno())
 
 
-def install(game, korean=True, relic=True, verify_only=False, log=print, package=None):
+def install(game, korean=True, relic=True, verify_only=False, log=print, package=None,
+            planner=None, receipt_name='EslabongCommunityMods', backup_prefix='mods'):
     game = Path(game).resolve()
     if not (game/'eslabong.exe').is_file() or not (game/'eslabong.pck').is_file():
         raise RuntimeError('eslabong.exe와 eslabong.pck가 있는 게임 폴더를 선택해 주세요.')
@@ -321,7 +286,7 @@ def install(game, korean=True, relic=True, verify_only=False, log=print, package
         handle.flush()
         log('게임 데이터와 기존 모드 상태를 확인합니다...')
         before = file_sha(game/'eslabong.pck')
-        receipt = game/'mods/EslabongCommunityMods/installed.json'
+        receipt = game/'mods'/receipt_name/'installed.json'
         if receipt.is_file():
             try:
                 previous = json.loads(receipt.read_text(encoding='utf-8'))
@@ -330,7 +295,7 @@ def install(game, korean=True, relic=True, verify_only=False, log=print, package
             except (OSError, ValueError):
                 log('이전 설치 기록을 읽지 못했습니다. 현재 게임 데이터를 직접 검사합니다.')
         pack = Pack(game)
-        replacements,report = plan(pack,korean,relic,package)
+        replacements,report = (planner or plan)(pack,korean,relic,package)
         report['game'] = str(game)
         log('스크립트 매칭 %d개 / 제외 %d개, 번역 매칭 %d개 / 제외 %d개' % (report['matched_scripts'],len(report['skipped_scripts']),report['matched_translation_entries'],report['skipped_translation_entries']))
         if report.get('display_matching'):
@@ -368,7 +333,7 @@ def install(game, korean=True, relic=True, verify_only=False, log=print, package
         require_closed()
         if file_sha(game/'eslabong.pck') != before:
             raise RuntimeError('작업 중 게임 파일이 바뀌어 설치를 중단했습니다.')
-        backup_dir = game/'KoreanPatchBackup'/('mods-'+time.strftime('%Y%m%d-%H%M%S')+'-'+uuid.uuid4().hex[:8])
+        backup_dir = game/'KoreanPatchBackup'/(backup_prefix+'-'+time.strftime('%Y%m%d-%H%M%S')+'-'+uuid.uuid4().hex[:8])
         backup_dir.mkdir(parents=True,exist_ok=False)
         backup = backup_dir/'eslabong.pck'
         shutil.copy2(game/'eslabong.pck',backup)
@@ -387,7 +352,7 @@ def install(game, korean=True, relic=True, verify_only=False, log=print, package
             shutil.copy2(backup,rollback)
             os.replace(rollback,game/'eslabong.pck')
             raise RuntimeError('설치 후 검증에 실패해 백업으로 복구했습니다.')
-        config_dir = game/'mods/EslabongCommunityMods'
+        config_dir = game/'mods'/receipt_name
         try:
             config_dir.mkdir(parents=True,exist_ok=True)
             (config_dir/'installed.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
@@ -409,7 +374,6 @@ def install(game, korean=True, relic=True, verify_only=False, log=print, package
 def guess_game():
     candidates = [Path.cwd(),Path(sys.executable).parent] if getattr(sys,'frozen',False) else [Path.cwd()]
     candidates += [p.parent for p in list(candidates)]
-    candidates += [Path('H:/Games/Eslabong')]
     if os.name=='nt':
         try:
             import winreg
@@ -428,7 +392,7 @@ def gui():
     import tkinter as tk
     from tkinter import ttk,filedialog,messagebox
     root = tk.Tk()
-    root.title('Eslabong 한국어 보완 · 유물 프리셋 모드 v1.0.3')
+    root.title('Eslabong 한국어 보완 · 유물 프리셋 모드 v1.1.0')
     root.geometry('780x540')
     root.minsize(700,480)
     frame = ttk.Frame(root,padding=18)

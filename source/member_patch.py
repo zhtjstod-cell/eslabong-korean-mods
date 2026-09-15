@@ -161,6 +161,36 @@ def _line_fallback(script, span, raw, candidates, korean, relic, package):
     return None
 
 
+def _partial_display_fallback(script, span, raw, candidates, korean, relic, package):
+    """Independent exact display lines, even if another line/signature changed.
+
+    Never use this for inventory/save transactions or combine conflicting edits.
+    Unknown lines remain byte-for-byte canonical equivalents of the input.
+    """
+    current_lines = [_line_bytes(line) for line in _lines(raw)]
+    replacements = {}
+    for record in candidates:
+        fallback = record.get('line_fallback')
+        if record.get('relic_required') or not fallback:
+            continue
+        for row in fallback['lines']:
+            hashes = {row['base']} | {v['sha256'] for v in row['variants'].values()}
+            indices = [i for i,line in enumerate(current_lines) if digest(line) in hashes]
+            if len(indices) != row['count']:
+                continue
+            for i in indices:
+                target = _transform(current_lines[i], row, korean, False, package)
+                if i in replacements and replacements[i] != target:
+                    raise ValueError('Conflicting display line recipes')
+                replacements[i] = target
+    if not replacements:
+        return None
+    flat = []
+    for i,line in enumerate(current_lines):
+        flat.extend(json.loads(replacements.get(i, line)))
+    return json.dumps(flat, ensure_ascii=False, separators=(',', ':')).encode()
+
+
 def apply(data, recipes, korean, relic, package):
     script = Script(data)
     spans = members(script)
@@ -191,6 +221,12 @@ def apply(data, recipes, korean, relic, package):
                 break
         if selected is None:
             target = _line_fallback(script,spans[name],raw,candidates,korean,relic,package)
+            if target is None and not required:
+                target = _partial_display_fallback(script,spans[name],raw,candidates,korean,relic,package)
+                if target is not None:
+                    # A partial match is useful but must not be reported as
+                    # complete coverage of every former edit in this function.
+                    skipped.append(name)
             if target is None:
                 if required:
                     raise RuntimeError('유물 프리셋에 필요한 함수의 동작이 달라 중단했습니다: '+name+'\n파일은 변경하지 않았습니다.')
