@@ -4,6 +4,22 @@ const KEY = "eslabong_mod_relic_preset"
 const OPTION = "eslabong_mod_include_relics"
 const RESULT = "eslabong_mod_relic_result"
 const PLACEMENT = ["state", "inventory_slot", "equipped_fighter_id", "equipped_slot", "local_listing_id", "quarantine_reason", "capacity_locked"]
+const IDENTITY = ["instance_id", "definition_id", "rolled_modifiers", "ownership_history"]
+
+static func _copy_value(value):
+	return value.duplicate(true) if value is Array or value is Dictionary else value
+
+static func _identity(save) -> Array:
+	var result = []
+	for item in save.owned_item_instances:
+		if item == null:
+			result.append(null)
+			continue
+		var row = [item.get_instance_id()]
+		for key in IDENTITY:
+			row.append(_copy_value(item.get(key)))
+		result.append(row)
+	return result
 
 static func _campaign():
 	var tree = Engine.get_main_loop()
@@ -54,13 +70,13 @@ static func capture_preset(screen, save, preset: Dictionary) -> Dictionary:
 	return preset
 
 static func _snapshot(save) -> Dictionary:
-	var result = {"items": [], "fighters": [], "new": save.item_new_instance_ids.duplicate()}
+	var result = {"items": [], "fighters": [], "new": save.item_new_instance_ids.duplicate(), "owned": save.owned_item_instances.duplicate()}
 	for item in save.owned_item_instances:
 		if item == null:
 			continue
 		var fields = {}
-		for field in PLACEMENT:
-			fields[field] = item.get(field)
+		for field in PLACEMENT + IDENTITY:
+			fields[field] = _copy_value(item.get(field))
 		result.items.append([item, fields])
 	for fighter in save.owned_mercenaries:
 		if fighter != null:
@@ -68,8 +84,9 @@ static func _snapshot(save) -> Dictionary:
 	return result
 
 static func _rollback(save, snapshot: Dictionary) -> void:
+	save.owned_item_instances.assign(snapshot.owned)
 	for row in snapshot.items:
-		for field in PLACEMENT:
+		for field in PLACEMENT + IDENTITY:
 			row[0].set(field, row[1][field])
 	for row in snapshot.fighters:
 		row[0].equipped_item_instance_ids.assign(row[1])
@@ -165,7 +182,7 @@ static func apply_loadout(save, inventory, loadout, active_ids: Array, locked_id
 					continue
 			changes.append([str(fighter_id), slot, id])
 	var before = _snapshot(save)
-	var owned_identity = save.owned_item_instances.duplicate()
+	var owned_identity = _identity(save)
 	var blocked: bool = inventory.is_blocking_signals()
 	inventory.set_block_signals(true)
 	var detach = {}
@@ -190,7 +207,7 @@ static func apply_loadout(save, inventory, loadout, active_ids: Array, locked_id
 				break
 	if problem == "":
 		problem = audit(save, inventory._active_capacity())
-	if problem == "" and save.owned_item_instances != owned_identity:
+	if problem == "" and _identity(save) != owned_identity:
 		problem = "owned_items_changed"
 	if problem == "":
 		var ids: Array[String] = []

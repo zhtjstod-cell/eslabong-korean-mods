@@ -15,6 +15,8 @@ import threading
 import time
 import traceback
 import uuid
+import subprocess
+import adaptive_relic
 
 import bsdiff4
 import psutil
@@ -80,7 +82,8 @@ def plan(pack, korean: bool, relic: bool, package: Path | None = None):
     manifest = json.loads((package/'data/manifest.json').read_text(encoding='utf-8'))
     layers = [manifest.get('display_overlays', []), *manifest.get('display_layers', [])]
     overlays = [row for layer in layers for row in layer]
-    normalized = {}
+    plain_relic = adaptive_relic.rewrite(pack.read(adaptive_relic.TARGET),adaptive_relic.RULES,False)
+    normalized = {adaptive_relic.TARGET:plain_relic} if plain_relic != pack.read(adaptive_relic.TARGET) else {}
     # Peel off our supplemental display layer before processing the original
     # reversible mod profiles. IDs, save/load hooks and inventory are not edited.
     for row in [row for layer in reversed(layers) for row in layer]:
@@ -97,7 +100,9 @@ def plan(pack, korean: bool, relic: bool, package: Path | None = None):
         def read(self, name):
             return normalized[name] if name in normalized else pack.read(name)
 
-    base_changes, report = _base_plan(BaseView(), korean, relic, package)
+    # Legacy recipes now manage text only. Equipment hooks are matched against
+    # current code independently, without pinning entire native implementations.
+    base_changes, report = _base_plan(BaseView(), korean, False, package)
     replacements = {**normalized, **base_changes}
     display_reports = {}
     if korean:
@@ -113,6 +118,17 @@ def plan(pack, korean: bool, relic: bool, package: Path | None = None):
                 accumulated[key] = sorted(set(accumulated[key]) | set(detail[key]))
             if target != current:
                 replacements[name] = target
+    if relic:
+        adaptive_relic.validate_api(pack)
+        path=adaptive_relic.TARGET
+        replacements[path]=adaptive_relic.rewrite(replacements.get(path,pack.read(path)),adaptive_relic.RULES,True)
+        extra=next(row for row in manifest['extras'] if row['path']==adaptive_relic.HELPER)
+        payload=(package/extra['file']).read_bytes()
+        if sha(payload)!=extra['sha256']:raise ValueError('Relic payload checksum mismatch')
+        if extra['path'] in pack.files and pack.read(extra['path'])!=payload and sha(pack.read(extra['path'])) not in extra.get('previous_sha256',[]):
+            raise ValueError('유물 보조 파일에 다른 수정이 있어 중단했습니다.')
+        replacements[extra['path']]=payload
+    report.update(relic_presets=relic,installer_version='1.2.0',relic_matching='structural-call-sites')
     # Normalizing and reapplying is deliberately a no-op on a repeated install.
     replacements = {name: data for name, data in replacements.items()
                     if name not in pack.files or data != pack.read(name)}
@@ -392,7 +408,7 @@ def gui():
     import tkinter as tk
     from tkinter import ttk,filedialog,messagebox
     root = tk.Tk()
-    root.title('Eslabong 한국어 보완 · 유물 프리셋 모드 v1.1.0')
+    root.title('Eslabong 한국어 보완 · 유물 프리셋 모드 v1.2.0')
     root.geometry('780x540')
     root.minsize(700,480)
     frame = ttk.Frame(root,padding=18)
@@ -424,7 +440,7 @@ def gui():
     buttons = ttk.Frame(frame)
     buttons.pack(fill='x',pady=(12,0))
     controls = [entry,browse_button,check_ko,check_relic]
-    def start(verify_only):
+    def start(verify_only,run_game=False):
         if busy[0]:
             return
         if not path.get().strip():
@@ -438,6 +454,7 @@ def gui():
         def work():
             try:
                 report = install(game,ko,rel,verify_only,log=lambda s:messages.put(('log',s)))
+                if run_game:subprocess.Popen([str(Path(game)/'eslabong.exe')],cwd=game)
                 messages.put(('done',report))
             except Exception as error:
                 messages.put(('error',str(error)))
@@ -447,6 +464,9 @@ def gui():
     verify = ttk.Button(buttons,text='변경 없이 검사',command=lambda:start(True))
     verify.pack(side='right',padx=8)
     controls += [apply,verify]
+    launch = ttk.Button(buttons,text='적용 후 게임 실행',command=lambda:start(False,True))
+    launch.pack(side='left')
+    controls.append(launch)
     def poll():
         while not messages.empty():
             kind,value = messages.get_nowait()
@@ -477,11 +497,13 @@ if __name__ == '__main__':
     parser.add_argument('--korean',type=int,choices=[0,1],default=1)
     parser.add_argument('--relic',type=int,choices=[0,1],default=1)
     parser.add_argument('--verify-only',action='store_true')
+    parser.add_argument('--launch',action='store_true')
     parser.add_argument('--report',type=Path)
     args = parser.parse_args()
     if args.game:
         try:
             report = install(args.game,bool(args.korean),bool(args.relic),args.verify_only)
+            if args.launch and not args.verify_only:subprocess.Popen([str(Path(args.game)/'eslabong.exe')],cwd=args.game)
             if args.report:
                 args.report.write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
         except Exception:

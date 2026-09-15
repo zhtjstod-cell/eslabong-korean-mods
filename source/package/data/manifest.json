@@ -9846,7 +9846,10 @@
       "path": "RelicPresets/RelicPresets.gd",
       "file": "mods/RelicPresets/RelicPresets.gd",
       "module": "relic",
-      "sha256": "9726ae37d1cbcc32654343da26e8f0b1dd575e8734cd895f490382667b59cc94"
+      "sha256": "b745869f3efa96f4390f0c57d7c360c443cb3d19e90a4264bfa0164cc027acb4",
+      "previous_sha256": [
+        "9726ae37d1cbcc32654343da26e8f0b1dd575e8734cd895f490382667b59cc94"
+      ]
     },
     {
       "module": "korean",
