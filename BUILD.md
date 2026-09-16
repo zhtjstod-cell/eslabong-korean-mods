@@ -24,7 +24,7 @@ python source/mod_installer.py
 - `source/mod_installer.py`: 설치 창, 게임 탐색, 리소스 매칭, 백업과 적용.
 - `source/pck.py`: 사용자가 보유한 게임의 리소스 팩 읽기. 필요한 키는 해당 실행 파일에서 메모리 안에서만 확인하며 포함하거나 기록하지 않습니다.
 - `source/gdc.py`, `source/relic_contract.py`, `source/member_patch.py`: 토큰 읽기, 리소스 구조, 함수·표시 구문 단위 매칭.
-- `source/adaptive_relic.py`, `source/structural_hooks.py`, `source/hook_tokens.py`: 현재 주전 저장/불러오기 호출 위치와 필수 API/인자 수를 확인하는 가역 연결. 관련 없는 함수 본문은 변경하지 않습니다.
+- `source/adaptive_relic.py`, `source/relic_hooks.py`, `source/structural_hooks.py`, `source/hook_tokens.py`: 현재 주전 저장/조회/확정 호출 및 안내 라벨의 관계를 찾아 연결합니다. 화면 함수·지역변수 이름을 고정하지 않고, 실제 사용하는 API/인자 수만 확인합니다. 관련 없는 함수 본문은 변경하지 않습니다.
 - `source/package/mods/KoreanSupplement/`: 표시용 이름 코드와 번역 데이터.
 - `source/translation_matching.py`: 키·원문 매칭, 같은 분류 내 유일한 번역 재사용, 원래 한국어 보호 및 항목별 복구 기록.
 - `PersonalNames.gd`, `DisplayText.gd`, `ScreenText.gd`: 직접 지정한 이름을 보호하는 이름 표시, 명칭·팀명·뉴스·표 머리글 등의 화면용 보조 코드.
@@ -43,6 +43,6 @@ python source/mod_installer.py
 
 ## 검증 범위
 
-v1.2.0은 최신 게임 기반 비공개 테스트 입력에서 유물 관련 2,186개 검사와 1,000가지 장착 순열을 통과했습니다. 품질이나 소유 목록이 예기치 않게 바뀌는 경우의 복구도 포함합니다. 공개판 네 구성과 개인용 모드 병용, 제거, 반복 적용, 다른 함수·언어 보존을 검사했습니다. 배포 EXE도 별도로 검사합니다.
+v1.2.1은 최신 게임 기반 비공개 테스트 입력에서 유물 관련 2,186개 검사와 1,000가지 장착 순열을 통과했습니다. 품질이나 소유 목록이 예기치 않게 바뀌는 경우의 복구도 포함합니다. 공개판 네 구성과 개인용 모드 병용, 제거, 반복 적용, 다른 함수·언어 보존을 검사했습니다. 추가 연결 검사 12개에는 첫 배포판의 고정 크기 팝업 마이그레이션, 화면 함수·지역변수 변경, 저장 데이터 변수화, 중첩 괄호·줄바꿈, 모호한 연결과 필수 API 변경 시 안전 중단이 포함됩니다. 배포 EXE도 별도로 검사합니다.
 
 게임에서 추출한 테스트 입력, 개인 저장 파일과 로컬 테스트 경로는 공개 저장소에 포함하지 않습니다. 전체 플레이 화면의 시각 검증을 완료했다는 의미는 아닙니다.

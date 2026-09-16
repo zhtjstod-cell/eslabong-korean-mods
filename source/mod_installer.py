@@ -22,7 +22,6 @@ import bsdiff4
 import psutil
 from Crypto.Cipher import AES
 from pck import Pack
-from relic_contract import mismatches
 from member_patch import apply as apply_members
 from translation_matching import apply as apply_translations, STATE_PATH
 
@@ -82,8 +81,13 @@ def plan(pack, korean: bool, relic: bool, package: Path | None = None):
     manifest = json.loads((package/'data/manifest.json').read_text(encoding='utf-8'))
     layers = [manifest.get('display_overlays', []), *manifest.get('display_layers', [])]
     overlays = [row for layer in layers for row in layer]
-    plain_relic = adaptive_relic.rewrite(pack.read(adaptive_relic.TARGET),adaptive_relic.RULES,False)
-    normalized = {adaptive_relic.TARGET:plain_relic} if plain_relic != pack.read(adaptive_relic.TARGET) else {}
+    normalized = {}
+    if adaptive_relic.TARGET in pack.files:
+        current = pack.read(adaptive_relic.TARGET)
+        plain_relic = adaptive_relic.remove(current)
+        if plain_relic != current: normalized[adaptive_relic.TARGET] = plain_relic
+    elif relic:
+        raise ValueError('주전 저장 화면을 찾지 못해 유물 기능을 연결하지 않았습니다.')
     # Peel off our supplemental display layer before processing the original
     # reversible mod profiles. IDs, save/load hooks and inventory are not edited.
     for row in [row for layer in reversed(layers) for row in layer]:
@@ -102,7 +106,7 @@ def plan(pack, korean: bool, relic: bool, package: Path | None = None):
 
     # Legacy recipes now manage text only. Equipment hooks are matched against
     # current code independently, without pinning entire native implementations.
-    base_changes, report = _base_plan(BaseView(), korean, False, package)
+    base_changes, report = _base_plan(BaseView(), korean, package)
     replacements = {**normalized, **base_changes}
     display_reports = {}
     if korean:
@@ -128,7 +132,7 @@ def plan(pack, korean: bool, relic: bool, package: Path | None = None):
         if extra['path'] in pack.files and pack.read(extra['path'])!=payload and sha(pack.read(extra['path'])) not in extra.get('previous_sha256',[]):
             raise ValueError('유물 보조 파일에 다른 수정이 있어 중단했습니다.')
         replacements[extra['path']]=payload
-    report.update(relic_presets=relic,installer_version='1.2.0',relic_matching='structural-call-sites')
+    report.update(relic_presets=relic,installer_version='1.2.1',relic_matching='semantic-preset-flow')
     # Normalizing and reapplying is deliberately a no-op on a repeated install.
     replacements = {name: data for name, data in replacements.items()
                     if name not in pack.files or data != pack.read(name)}
@@ -137,7 +141,10 @@ def plan(pack, korean: bool, relic: bool, package: Path | None = None):
     return replacements, report
 
 
-def _base_plan(pack, korean: bool, relic: bool, package: Path | None = None):
+def _base_plan(pack, korean: bool, package: Path | None = None):
+    # Legacy recipe profiles only migrate/remove old hooks while translating.
+    # New relic connections are exclusively handled by adaptive_relic.
+    relic = False
     package = package or package_root()
     manifest = json.loads((package/'data/manifest.json').read_text(encoding='utf-8'))
     if manifest.get('format') != 2:
@@ -146,19 +153,6 @@ def _base_plan(pack, korean: bool, relic: bool, package: Path | None = None):
     skipped = []
     matched = 0
     member_reports = {}
-    if relic:
-        contracts = {**manifest['relic_dependencies'],'UI/screens/myteam_screen.gdc':manifest['relic_ui_contract']}
-        for name,expected in contracts.items():
-            try:
-                profiles = [expected, *manifest.get('relic_contract_alternatives', {}).get(name, [])]
-                results = [mismatches(pack.read(name), profile) for profile in profiles]
-                failed = min(results, key=len)
-            except (KeyError,ValueError,AssertionError,IndexError,struct.error,zstandard.ZstdError):
-                failed = ['리소스 형식 또는 필수 항목 없음']
-            if failed:
-                raise RuntimeError('유물 장착·저장에 필요한 항목이 달라 안전하게 중단했습니다. 파일은 변경하지 않았습니다.\n'
-                                   +name+'\n확인이 필요한 항목: '+', '.join(failed)
-                                   +'\n한국어 보완만 설치하려면 유물 프리셋 체크를 해제해 주세요.')
     for record in manifest['resources']:
         name = record['path']
         if name not in pack.files:
@@ -313,6 +307,8 @@ def install(game, korean=True, relic=True, verify_only=False, log=print, package
         pack = Pack(game)
         replacements,report = (planner or plan)(pack,korean,relic,package)
         report['game'] = str(game)
+        if report.get('relic_presets'):
+            log('유물 프리셋: 현재 게임의 저장·불러오기 흐름 연결 확인 완료.')
         log('스크립트 매칭 %d개 / 제외 %d개, 번역 매칭 %d개 / 제외 %d개' % (report['matched_scripts'],len(report['skipped_scripts']),report['matched_translation_entries'],report['skipped_translation_entries']))
         if report.get('display_matching'):
             details = report['display_matching'].values()
@@ -408,7 +404,7 @@ def gui():
     import tkinter as tk
     from tkinter import ttk,filedialog,messagebox
     root = tk.Tk()
-    root.title('Eslabong 한국어 보완 · 유물 프리셋 모드 v1.2.0')
+    root.title('Eslabong 한국어 보완 · 유물 프리셋 모드 v1.2.1')
     root.geometry('780x540')
     root.minsize(700,480)
     frame = ttk.Frame(root,padding=18)

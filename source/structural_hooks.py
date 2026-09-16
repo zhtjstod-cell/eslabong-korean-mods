@@ -27,6 +27,8 @@ def require_members(pack,path,required):
 def require_calls(pack,path,calls):
     s=Script(pack.read(path))
     for name,count in calls.items():
+        if name not in members(s):
+            raise ValueError('필수 게임 함수가 없습니다: '+path+' / '+name)
         start,stop=s.function_span(name);words=[s.spelling(c) for c,_ in s.tokens[start:stop]]
         depth=0;parts=[[]]
         for word in words[words.index('(')+1:]:
