@@ -1,0 +1,66 @@
+{
+  "Aloextreme.description": {
+    "en": "Aloextreme was a poor lancer when he was young, and the teams he joined constantly criticized him for failing to contribute what they expected. He invested every last coin into retraining as a Halberdier. Now he returns to the arena ready to prove what he always knew he could truly do.",
+    "after": "알로익스트림은 젊은 시절 실력이 형편없는 창병이었습니다. 그가 몸담았던 팀들은 기대만큼 활약하지 못한다며 늘 그를 질책했습니다. 그는 가진 돈을 한 푼도 남김없이 털어 할버드병으로 다시 훈련받았습니다. 이제 투기장으로 돌아온 그는, 자신에게 어떤 힘이 있는지 마침내 증명하려 합니다."
+  },
+  "Aom The Bonecaller.description": {
+    "en": "Aom The Bonecaller wants to become the Darklord of Eslabong and he plans to claim the title with a relentless horde of black skeletons. Every bone he raises darkens the arena a little more, until the crowd can no longer tell where Aom ends and his army begins.",
+    "after": "뼈 소환사 아옴은 에슬라봉의 암흑 군주가 되려 합니다. 끊임없이 밀려드는 검은 해골 군단으로 그 자리를 차지할 생각입니다. 그가 뼈 하나를 일으킬 때마다 투기장은 조금씩 어두워집니다. 마침내 관중들은 어디까지가 아옴이고 어디부터가 그의 군대인지조차 분간할 수 없게 됩니다."
+  },
+  "Ramon Salis.description": {
+    "en": "Ramon Salis pursues the path of the sky-high jumping lancers, wielding the powers of dragons. He leaps into the fray with a crack of thunder, then rises again to strike from above, entertaining the crowd while cutting down his foes.",
+    "after": "라몬 살리스는 용의 힘을 다루며 하늘 높이 도약하는 창병의 길을 걷습니다. 천둥소리와 함께 적진으로 뛰어든 뒤, 다시 솟구쳐 올라 머리 위에서 일격을 꽂습니다. 적들을 쓰러뜨리는 그의 화려한 몸놀림에 관중들은 환호합니다."
+  },
+  "Sulzer.description": {
+    "en": "Sulzer is an Astralwing exiled for being born without wings. Refusing to disappear, he turned his lack of wings into a weapon, becoming famous during the Oxi Broxi invasions by finishing as the number-one damage dealer through sheer aggression and all-in attacks.",
+    "after": "술저는 날개 없이 태어났다는 이유로 추방당한 성좌술사입니다. 그는 조용히 사라지기를 거부하고, 오히려 날개가 없다는 점을 무기로 삼았습니다. 옥시 브록시의 침공 당시에는 거침없는 공격과 전력을 쏟아붓는 전투 방식으로 가한 피해량 1위를 차지하며 이름을 떨쳤습니다."
+  },
+  "The Offsong.description": {
+    "en": "The Offsong is a young Archmage who appeared in Eslabong under mysterious circumstances, and nobody knows which Supreme Archmage trained him. He came to build his own team and prove that, despite his young age, he is the strongest Archmage alive. He intends to claim the title of The Supreme.",
+    "after": "오프송은 수수께끼에 싸인 채 에슬라봉에 나타난 젊은 대마법사입니다. 어느 지고의 대마법사에게 가르침을 받았는지는 아무도 모릅니다. 그는 자신의 팀을 꾸리고, 비록 나이는 어리지만 현존하는 최강의 대마법사임을 증명하려 이곳에 왔습니다. 그가 노리는 칭호는 바로 '지고의 자'입니다."
+  },
+  "Thomas Kopv.description": {
+    "en": "Thomas Kopv is a devoted lover of the Eslabong system, convinced that the arena is the finest machine ever built. He wants to win millions in the arena, then spend them on a long vacation with his dog, the only teammate he trusts to celebrate properly.",
+    "after": "토마스 코프는 에슬라봉의 체계를 열렬히 사랑하며, 투기장이야말로 세상에서 가장 훌륭한 기계라고 믿습니다. 그의 꿈은 투기장에서 수백만 골드를 번 뒤 반려견과 긴 휴가를 떠나는 것입니다. 승리를 제대로 축하할 줄 아는 동료는 녀석뿐이라고 굳게 믿기 때문입니다."
+  },
+  "Trygve Barulf.description": {
+    "en": "Trygve Barulf was once a teacher among the Shadow Priests, guiding generations through the rites of darkness. After years of teaching, he grew tired of repeating the same lessons and enrolled in Eslabong's arenas. Class dismissed. Let the arena begin.",
+    "after": "트뤼그베 바룰프는 한때 그림자 사제들의 스승으로, 여러 세대에 걸쳐 어둠의 의식을 가르쳤습니다. 오랜 세월 같은 가르침을 되풀이하는 데 지친 그는 에슬라봉의 투기장에 참가했습니다. 수업은 끝났습니다. 이제 투기장의 막이 오를 차례입니다."
+  },
+  "AboBro.quote": {
+    "en": "Weapons break. These hands don't.",
+    "after": "무기는 부러져도, 이 두 손은 안 부러지지."
+  },
+  "Aloextreme.quote": {
+    "en": "The old critics are still inside my range.",
+    "after": "날 비웃던 녀석들, 아직 내 사정거리 안에 있군."
+  },
+  "Aom The Bonecaller.quote": {
+    "en": "Soon, every shadow in Eslabong will kneel to the bones.",
+    "after": "머지않아 에슬라봉의 모든 그림자가 뼈 앞에 무릎 꿇으리라."
+  },
+  "Master Luciv.quote": {
+    "en": "A blade does not need haste when it arrives first",
+    "after": "먼저 닿는 칼날은 서두를 필요가 없지."
+  },
+  "Nemuseal.quote": {
+    "en": "Green means go. Usually to the infirmary.",
+    "after": "초록색은 가도 된다는 뜻이지. 대개는 의무실로 말이야."
+  },
+  "Ramon Salis.quote": {
+    "en": "The sky is not the limit. It is my starting line.",
+    "after": "하늘은 한계가 아니다. 내 출발선이지."
+  },
+  "Sulzer.quote": {
+    "en": "If the damage chart cannot see me, I am not fighting hard enough.",
+    "after": "피해량 순위에 내 이름이 안 보인다면, 아직 덜 싸운 거지."
+  },
+  "The Offsong.quote": {
+    "en": "I do not need a master. I need a stage.",
+    "after": "내게 필요한 건 스승이 아니라 무대다."
+  },
+  "Thomas Kopv.quote": {
+    "en": "One more win, then the beach.",
+    "after": "한 판만 더 이기고, 바다로 가자."
+  }
+}

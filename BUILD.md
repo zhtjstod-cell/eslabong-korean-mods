@@ -1,48 +1,37 @@
-# 빌드 안내
+# 공개 모드 로더 빌드
 
-일반 사용자는 [릴리즈](https://github.com/zhtjstod-cell/eslabong-korean-mods/releases/latest)의 설치 ZIP을 받으면 됩니다. 이 문서는 소스를 살펴보거나 설치기를 직접 빌드할 때만 필요합니다.
+일반 사용자는 릴리즈의 실행용 ZIP을 받으세요. 이 문서는 공개 소스 빌드용입니다. Windows 64비트, Python 3.10.11 환경에서 검증합니다.
 
-## 설치기 빌드
-
-검증한 빌드 환경은 Windows 64비트, Python 3.10.11입니다. 저장소 최상위 폴더에서 실행합니다.
+저장소 또는 실행용 ZIP의 최상위 폴더에서:
 
 ```powershell
 python -m pip install -r requirements-build.txt
-python -m PyInstaller --noconfirm --onefile --windowed --name EslabongMods --paths source --add-data "source/package;package" source/mod_installer.py
+python -m PyInstaller --noconfirm --onefile --windowed --name EslabongCommunityLoader --paths source --add-data "source/package;package" --add-data "source/loader;external-loader" source/public_mod_loader.py
 ```
 
-완성된 파일은 `dist/EslabongMods.exe`입니다. 배포 시 `LICENSE`, `THIRD_PARTY_NOTICES.md`, `licenses/`도 함께 제공하세요.
-
-설치기 코드를 직접 실행할 수도 있습니다.
+생성된 `dist/EslabongCommunityLoader.exe` 옆에 저장소의 `mods` 폴더를 복사하세요. 문서·`LICENSE`·`THIRD_PARTY_NOTICES.md`·`licenses/`도 함께 배포합니다.
 
 ```powershell
-python source/mod_installer.py
+python source/test_public_loader.py
+python source/public_mod_loader.py --settings
+python source/public_mod_loader.py --game "실제 게임 폴더" --prepare-only --report "검사결과.json"
 ```
 
-## 구성
+## 구조
 
-- `source/mod_installer.py`: 설치 창, 게임 탐색, 리소스 매칭, 백업과 적용.
-- `source/pck.py`: 사용자가 보유한 게임의 리소스 팩 읽기. 필요한 키는 해당 실행 파일에서 메모리 안에서만 확인하며 포함하거나 기록하지 않습니다.
-- `source/gdc.py`, `source/relic_contract.py`, `source/member_patch.py`: 토큰 읽기, 리소스 구조, 함수·표시 구문 단위 매칭.
-- `source/adaptive_relic.py`, `source/relic_hooks.py`, `source/structural_hooks.py`, `source/hook_tokens.py`: 현재 주전 저장/조회/확정 호출 및 안내 라벨의 관계를 찾아 연결합니다. 화면 함수·지역변수 이름을 고정하지 않고, 실제 사용하는 API/인자 수만 확인합니다. 관련 없는 함수 본문은 변경하지 않습니다.
-- `source/package/mods/KoreanSupplement/`: 표시용 이름 코드와 번역 데이터.
-- `source/translation_matching.py`: 키·원문 매칭, 같은 분류 내 유일한 번역 재사용, 원래 한국어 보호 및 항목별 복구 기록.
-- `PersonalNames.gd`, `DisplayText.gd`, `ScreenText.gd`: 직접 지정한 이름을 보호하는 이름 표시, 명칭·팀명·뉴스·표 머리글 등의 화면용 보조 코드.
-- `source/package/mods/RelicPresets/RelicPresets.gd`: 유물 프리셋 및 소유 아이템 이동 처리.
-- `source/package/data/`: 게임 코드의 전체 사본이 아닌 검증용 해시와 가역 변경 데이터.
+- `source/public_mod_loader.py`: 공개 두 모드 선택, 변경 감지, 캐시, 준비 및 실행. 개인용 모듈을 import하지 않습니다.
+- `source/external_pack.py`: 로컬 생성용 시작 팩·오버레이 팩과 프로젝트 설정의 손실 없는 읽기/쓰기.
+- `source/loader/Bootstrap.gd`: 가장 앞선 autoload에서 사용자의 원본 팩과 모드 오버레이를 로드합니다.
+- `source/loader/Preflight.gd`: 실제 세이브와 분리된 검사 프로필에서 리소스 내용 일치를 확인합니다.
+- `source/mod_installer.py`: 기존 공개 리소스 매칭 코드. 로더는 순수 `plan()`만 사용하며 원본을 쓰는 설치 루틴은 호출하지 않습니다.
+- `source/pck.py`, `source/gdc.py`: 사용자 소유 리소스와 토큰을 읽습니다. 키는 소유한 EXE에서 메모리 안에서만 찾으며 저장·배포하지 않습니다.
+- `source/member_patch.py`, `source/translation_matching.py`: 기존 번역·표시 구문 재사용과 원래 언어 데이터 보호.
+- `source/adaptive_relic.py`, `source/relic_hooks.py`, `source/structural_hooks.py`, `source/hook_tokens.py`, `source/relic_contract.py`: 유물 연결과 실제 API 검증.
+- `source/package`: 검증된 공개 보완 데이터와 가역 변경 데이터. 원본 게임 코드 전체가 아닙니다.
+- `mods/KoreanSupplement`, `mods/RelicPresets`: 사용자가 선택하는 외부 모드 데이터.
 
-배포된 게임 본체나 복호화 키가 저장소에 필요하지 않습니다. 변경 데이터에는 원본이 포함되지 않으므로, 게임을 보유하지 않은 상태에서 게임 코드를 재생성할 수 없습니다.
+실행기 사본과 시작 팩은 각 사용자의 게임에서 로컬로 생성합니다. 원본 EXE·PCK·게임 DLL·`cache`·검사 로그·저장 파일은 배포 대상이 아닙니다. 배포 ZIP에는 공개 소스와 모드 데이터만 넣고, PyInstaller 내장 모듈 목록에도 개인용 기능이 없는지 확인합니다.
 
-변경 데이터와 보조 파일에는 무결성 검사가 있습니다. 모드 코드만 고치고 매니페스트의 해당 해시를 갱신하지 않으면 설치가 중단됩니다. 기존 설치와의 마이그레이션·호환성 검증도 새 배포 전에 다시 수행해야 합니다.
+모드 payload의 해시는 패키지 매니페스트로 검증됩니다. 보조 코드를 수정할 때에는 해당 해시와 이전 버전 마이그레이션 자료도 함께 갱신·검증해야 합니다. 알 수 없는 사용자 수정은 덮어쓰지 않습니다.
 
-추가 표시 수정은 순서가 있는 레이어로 관리합니다. 기존 레이어를 역순으로 정규화하고 선택한 구성을 정방향으로 적용합니다. 알려진 이전 보조 파일과 번역 기록은 명시된 해시·이전 항목으로만 전환하며, 알 수 없는 사용자 수정은 덮어쓰지 않습니다.
-
-표시용 변경은 함수 전체 → 동일 서명 내 줄 매칭 → 독립적인 정확한 표시 줄 매칭 순으로 확인합니다. 유물은 별도 구조 매칭으로 연결하고 현재 게임의 장착 함수를 호출합니다. 실행 시 고유 ID·슬롯·용량·수량·품질·소유 이력을 검사하고 실패하면 복원합니다. 필수 API나 연결 구조가 없어지면 중단합니다. 번역 원문의 공백은 정규화하지만 숫자·자리표시자·문장 뜻을 유사도만으로 추측하지 않습니다.
-
-현재 패키지는 번역 기록에 한국어 테이블의 내용 해시를 저장합니다. 게임 업데이트가 그 테이블을 별도로 바꿨다면 이전 소유 기록을 보수적으로 해제해 새로 제공된 한국어를 잘못 삭제하지 않습니다. 이 경우 남아 있는 같은 번역을 제거 시 원복할 수 없을 수 있습니다.
-
-## 검증 범위
-
-v1.2.1은 최신 게임 기반 비공개 테스트 입력에서 유물 관련 2,186개 검사와 1,000가지 장착 순열을 통과했습니다. 품질이나 소유 목록이 예기치 않게 바뀌는 경우의 복구도 포함합니다. 공개판 네 구성과 개인용 모드 병용, 제거, 반복 적용, 다른 함수·언어 보존을 검사했습니다. 추가 연결 검사 12개에는 첫 배포판의 고정 크기 팝업 마이그레이션, 화면 함수·지역변수 변경, 저장 데이터 변수화, 중첩 괄호·줄바꿈, 모호한 연결과 필수 API 변경 시 안전 중단이 포함됩니다. 배포 EXE도 별도로 검사합니다.
-
-게임에서 추출한 테스트 입력, 개인 저장 파일과 로컬 테스트 경로는 공개 저장소에 포함하지 않습니다. 전체 플레이 화면의 시각 검증을 완료했다는 의미는 아닙니다.
+업데이트 대응은 현재 리소스의 원문·표시 구문·함수 호출 관계에 근거합니다. 전혀 다른 엔진·바이트코드·API에 무조건 적용하는 방식이 아닙니다. 미래 구조가 맞지 않으면 안전하게 중단합니다.
